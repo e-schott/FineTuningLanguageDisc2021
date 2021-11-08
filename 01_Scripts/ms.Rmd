@@ -1,0 +1,429 @@
+---
+title: "Fine-tuning language discrimination: Bilingual and monolingual  infants' detection of language switching"
+shorttitle        : "Fine-tuning language discrimination"
+author: 
+    
+  - name          : "Esther Schott"
+    affiliation   : "1,2" 
+    corresponding : yes
+    address       : "7141 Sherbrooke St. West, Montréal, Québec, Canada, H4B 1R6"
+    email         : "esther.schott@mail.concordia.ca"
+  - name          : "Meghan Mastroberardino"
+    affiliation   : "1,2"
+  - name          : "Eva Fourakis"
+    affiliation   : "3"
+  - name          : "Casey Lew-Williams"
+    affiliation   : "3"
+  - name          : "Krista Byers-Heinlein"
+    affiliation   : "1,2"
+affiliation:
+  - id            : "1"
+    institution   : "Concordia University"
+  - id            : "2"
+    institution   : "Centre for Research on Brain, Language and Music"
+  - id            : "3"
+    institution   : "Princeton University"
+wordcount         : "8458"
+author_note: |
+  We would like to thank the participating infants and their families, as well as the members of the Concordia Infant Research Lab and the Princeton Baby Lab. In particular, we would like to thank Michela Martiniello for her help preparing part of the stimuli for this study. This work was supported by a grant from the Natural Sciences and Engineering Research Council of Canada (402470-2011; 2018-04390) to KBH, grants from the National Institute of Child Health and Human Development (R01HD095912; R03HD079779) to CLW and KBH, a grant from the Speech-Language-Hearing Foundation to CLW, support from the Concordia University Research Chairs program to KBH, and a fellowship from the Fonds de Recherche du Québec – Société et Culture and Concordia University to ES.
+abstract: |
+ The ability to differentiate between two languages sets the stage for bilingual learning. Infants can discriminate languages when hearing long passages, but language switches often occur on short time scales with few cues to language identity. As bilingual infants begin learning sequences of sounds and words, how do they detect the dynamics of two languages? In two studies using the head-turn preference procedure, we investigated whether infants (_n_ = 44) can discriminate languages at the level of individual words. In Study 1, bilingual and monolingual 8- to 12-month-olds were tested on their detection of single-word language switching in lists of words (e.g., “dog… _lait_ [fr. milk]”). In Study 2, they were tested on language switching within sentences (e.g., “Do you like the _lait_?"). We found that infants were unable to detect language switching in lists of words, but the results were inconclusive about infants’ ability to detect language switching within sentences. No differences were observed between  bilinguals and monolinguals. Given that bilingual proficiency eventually requires detection of sound sequences across two languages, more research will be needed to conclusively understand when and how this skill emerges.
+keywords          : "infants, language switching, bilingualism, word learning, language discrimination"
+bibliography      : ["../../Schott_Library.bib"]
+figsintext        : yes
+figurelist        : no
+tablelist         : no
+Balloonnotelist   : no
+lineno            : yes
+mask              : no
+class             : "man"
+output            : papaja::apa6_word
+always_allow_html : yes
+numbersections    : no
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r knitr_options, include=F, warning=F, results='hide'}
+
+try(source("groundhog_packages.R"))
+try(source("01_Scripts/groundhog_packages.R"))
+knit("LM-04-analysis.Rmd", quiet = TRUE)
+try(detach(package:tidylog)) # in case the tidylog package is attached, detach cause it's too verbose
+
+opts_chunk$set( cache = FALSE, warning = FALSE, message = TRUE, echo = FALSE)
+options(digits = 3, width = 88)
+```
+
+\clearpage
+
+All bilingual environments involve periodic switching between languages either within or across speakers, and an ability to detect these switches is foundational to bilingual infants' successful language acquisition and later language use. Previous research has tested infants' detection of language switches at longer time scales, such as following narrative-like passages [e.g., @boschEvidenceEarlyLanguage2001; @nazziLanguageDiscriminationNewborns1998]. However, little is known about infants' ability to detect language switches at shorter time scales. Given that language learning in the first year of life is largely focused on sequences of sounds and words, how do infants process switches at the level of individual words? The ability to detect a transition between languages in a sentence such as "Look at the *chien* [fr. dog]" would presumably support bilingual infants' emerging representations of words in two languages [@byers-heinleinLanguagesCategoriesReframing2014; @curtinBilingualBeginningsLens2011]. The present studies tested whether bilingual and monolingual 8- to 12-month-old infants, who are just beginning to learn words, can detect single-word language switches.
+
+Language switches are frequent in many bilingual infants' language environments. While the amount of language switching varies across families and communities, most bilingual parents switch languages in interactions with their children, with some children hearing language switches in as many as 2/3 of utterances [@bailLookGatoCodeswitching2015; @byers-heinleinParentalLanguageMixing2013; @kreminCodeswitchingParentsEveryday2021]. Language switching can take several forms. First, parents may alternate their languages at the point of a sentence boundary (e.g., "*Regarde ici* [fr. look here]! Do you see the dog?"). Second, they may switch languages within a sentence by borrowing a single word from another language ("Do you want your *toutou* [fr. stuffed animal]?"). Finally, they can switch across isolated words, such as when teaching new words [e.g., "Look! Dog! *Chien* [fr. dog]!", @byers-heinleinParentalLanguageMixing2013]. Some of these types of language switches may be more difficult for infants to detect than others.
+
+Most research on infant language discrimination has focused on cross-sentence switching in long passages of speech. In one study, newborns born to bilingual mothers, who were exposed to both English and Tagalog during pregnancy, were tested in a habituation paradigm [@byers-heinleinRootsBilingualismNewborns2010]. After hearing sentences in one of their maternal languages until they lost interest, newborns showed renewed interest only when the stimuli switched to the other language, suggesting that they could detect the language change. Thus, following prolonged exposure to a language in a long passage, even newborn bilinguals are able to detect language switches for some language pairs. More evidence for infants' ability to discriminate languages across longer time scales comes from studies of Spanish--Catalan bilingual 4-month-olds [@boschEvidenceEarlyLanguage2001] and Spanish--Basque 3.5-month-old bilinguals [@molnarWithinrhythmClassNative2014], as well as studies including monolingual infants, from birth to 5 months of age [e.g., @bahrickClassificationBimodalEnglish1988; @nazziLanguageDiscriminationEnglishLearning2000; @nazziLanguageDiscriminationNewborns1998]. In these studies, language rhythm, an aspect of prosody that is largely related to variation in consonant and vowel duration, appears to play a role in detecting language switches [@gaspariniQuantifyingRoleRhythm2020]. Rhythmic information is richer in multisyllabic utterances [@ramusCorrelatesLinguisticRhythm1999], thus, these studies leave open the question of whether infants can detect language switches over shorter time scales where rhythmic cues are less available.
+
+Some recent evidence suggests that at least older infants might be able to detect language switches across shorter time scales, for example when switches involve a single word (e.g., "Do you see the *chien* [fr. dog] over there?"). In an eye-tracking study [@byers-heinleinBilingualInfantsControl2017], 20-month-olds looked less at a target image when the target word was language-switched ("Look at the *chien*") compared to when the target word was of the same language ("Look at the dog"). Similar results were found for English--Spanish bilingual 18- to 30-month-olds [@moriniDondeEstaBall2019; @potterBilingualToddlersComprehension2019; @potterBilingualInfantsProcess2018]. Additional evidence for detection of language-switched words comes from a study of English--Welsh bilingual 2- to 3-year-olds' event-related potentials [@kuipersEventrelatedPotentialCorrelates2012]. Together, these studies suggest that by their second year of life, bilingual infants have some ability to detect a language switch at the level of individual words.
+
+Even during the first year of life, infants possess prerequisite abilities that could help them to detect single-word language switches. While direct evidence for this is sparse, several studies indicate that infants' budding knowledge of sounds and words could enable them to detect such variation. First of all, monolingual infants learn about the sound patterns in their native language prior to the onset of word production [@werkerPerceptualBeginningsLanguage2018], and 6- to 9-month-olds show precursors of word comprehension for frequent words by looking at a labeled referent [@bergelson69MonthsHuman2012; @bergelsonEarlyWordComprehension2015; @kartushinaWordKnowledgeSix2019]. While such studies have yet to be done with bilingual infants, ample evidence suggests that bilingual infants make rapid gains in learning about the sounds (i.e., phonetic inventory) and allowable combinations of sounds (phonotactics) of their two languages. Within the first year, both monolinguals [@kuhlInfantsShowFacilitation2006; @werkerCrosslanguageSpeechPerception1984] and bilinguals [@albareda-castellotAcquisitionPhoneticCategories2011; @burnsDevelopmentPhoneticRepresentation2007; @sundaraDevelopmentCoronalStop2008] become perceptually specialized to the sounds of their native language, and further, bilingual infants are sensitive to patterns of sounds that are typical in their dominant language [@sebastiangallesBuildingPhonotacticKnowledge2002]. Moreover, bilingual infants  start to recognize the sound patterns of frequently-heard familiar words by 11 months [@vihmanOnsetWordForm2007], though as mentioned above more studies are needed on bilinguals' early word comprehension. Thus, it is possible that even young bilinguals could exploit their developing knowledge of sounds and sound patterns to detect single-word language switches, at least for certain highly frequent and familiar words.
+
+Here, in two studies, we investigated whether infants are able to detect single-word language switches. We tested 8- to 12-month-old infants, because at this age they have already acquired knowledge about the sounds and sound patterns in their native language(s) and have started to learn about the words in their language(s) as well. Infants listened to single-language and switched-language speech, and their listening times (operationalized as looking times) were measured using the head-turn preference procedure. Words were presented in a word list in Study 1 or following a naturally produced sentence frame in Study 2, which allowed us to test whether the local context of a language switch matters for infants' detection of single-word language switches. On single-language trials, infants heard only one language, e.g., "dog... milk... dog... milk..." in Study 1 or "Do you like the dog? I want the milk!" in Study 2. On switched-language trials, infants heard words from two languages, e.g., "dog... *lait* [fr. milk]... dog... *lait*..." (Study 1) or "Do you like the *chien* [fr. dog]? I want the *lait*!" (Study 2). The same infants participated in both studies during the same lab visit.
+
+We predicted that infants would succeed in detecting language switches both in word lists (Study 1) and in sentences (Study 2), indexed by significantly different looking times to single-language and switched-language trials, although we did not predict a direction of the difference given the challenge of doing so for a new paradigm [@aslinWhatLook2007]. It was also possible that infants would only succeed at detecting language switches when embedded in a sentence. Multi-word utterances are more common than single-word utterances in input to children [@brentRoleExposureIsolated2001], which may facilitate infants' using their day-to-day language processing abilities more fully for sentence-embedded (Study 2) compared to single-word (Study 1) language switches. Furthermore, most previous studies of early language discrimination have used stimuli that contained long passages of speech, and from this research we know that rhythmic cues are important to language discrimination [e.g., @ramusLanguageDiscriminationNewborns2002]. In a similar vein, bilingual toddlers were better at recognizing familiar words when they were embedded in a sentence than when they were heard in isolation [@moriniDondeEstaBall2019]. Hearing *"Do you like the..."* provides infants with more exposure to sequences of sounds and words in the language being spoken prior to a language switch.
+
+We tested both bilingual and monolingual infants. While we expected all infants to detect the switches, we expected that bilinguals might show a larger effect (i.e., a larger looking time difference) than monolinguals. This would indicate that everyday exposure to two languages enhances this ability. Another possible outcome would be that bilingual and monolingual infants show equivalent detection of language switches, suggesting that this ability is not related to the experience of hearing both languages. Testing both bilingual and monolingual infants allowed us to investigate how language exposure interacts with infants' ability to detect language switches.
+
+# Study 1: Language Switches in Word Lists
+
+## Method
+
+This study was approved by the [omitted] University Human Research Ethics Board (certificate \#10000439) and the [omitted] University Behavioural Research Ethics Board. All parents provided informed written consent prior to their infants' participation in the study. Materials and methods are available at <https://osf.io/9dtwn/?view_only=81a3803f5660462a9648ec59ffc1c53e> [blinded link for peer review].
+
+```{r}
+# calculate values for in-text numbers, creating nested lists for easier text readability
+n_count = list(
+  N_mono = list( # number of monolingual keepers by study
+    s1 = length(which(study_1_keeper$lang_group == "monolingual")),
+    s2 = length(which(study_2_keeper$lang_group == "monolingual"))),
+  N_bil  = list( # number of bilingual keepers by study
+    s1 = length(which(study_1_keeper$lang_group == "bilingual")),
+    s2 = length(which(study_2_keeper$lang_group == "bilingual")),
+    
+  mtl = list( # keepers by location (bilinguals only)
+    s1 = study_1_keeper %>% filter(test_location == "Montreal", lang_group == "bilingual") %>% nrow(),
+    s2 = study_2_keeper %>% filter(test_location == "Montreal", lang_group == "bilingual") %>% nrow()),
+  nej = list( 
+    s1 = study_1_keeper %>% filter(test_location == "NewJersey", lang_group == "bilingual") %>% nrow(),
+    s2 = study_2_keeper %>% filter(test_location == "NewJersey", lang_group == "bilingual") %>% nrow())),
+  
+  N_3rdLang = list( # info about 3rd language, this also does not vary by study
+    n = desc_3rdLang %>% pull(N),
+    min = desc_3rdLang %>%  pull(Min),
+    max = desc_3rdLang %>%  pull(Max)),
+  
+  lang_mix = list(
+    bil =  list( # language mixing info for bilingual sample (this does not change much by study, so it's okay to only call study 1 here)
+      mean =  study_1_keeper %>% filter(lang_group == "bilingual") %>% pull(lang_mix_score) %>% mean(., na.rm=T),
+      sd =   study_1_keeper %>% filter(lang_group == "bilingual") %>% pull(lang_mix_score) %>% sd(., na.rm=T),
+      min = study_1_keeper %>% filter(lang_group == "bilingual") %>% pull(lang_mix_score) %>% min(., na.rm=T),
+      max = study_1_keeper %>% filter(lang_group == "bilingual") %>% pull(lang_mix_score) %>% max(., na.rm=T)),
+    mono = list( # language mixing info for monolingual sample (this does not change much by study, so it's okay to only call study 1 here)
+      mean =  study_1_keeper %>% filter(lang_group == "monolingual") %>% pull(lang_mix_score) %>% mean(., na.rm=T),
+      sd =  study_1_keeper %>% filter(lang_group == "monolingual") %>% pull(lang_mix_score) %>% sd(., na.rm=T),
+      min = study_1_keeper %>% filter( lang_group == "monolingual") %>% pull(lang_mix_score) %>% min(., na.rm=T),
+      max = study_1_keeper %>% filter( lang_group == "monolingual") %>% pull(lang_mix_score) %>% max(., na.rm=T)),
+    t_test = t_test_lang_mix %>% pull(t.test.res), # comparing language mixing scores for monolinguals and bilinguals
+    d = t_test_lang_mix %>% pull(cohen_d)), # get effect size for difference
+  
+  total_part =  study_1_part %>% count() %>% pull(n), # all children tested
+  
+  excl = list( # reasons for exclusion
+    pilot = study_1_part %>% filter( keeper_reason == "pilot") %>% count() %>% pull(n),
+    health = study_1_part %>% filter( keeper_reason ==  "health") %>% count() %>% pull(n),
+    lang =  study_1_part %>% filter( keeper_reason == "language") %>% count() %>% pull(n),
+    parental = study_2_part %>% filter( keeper_reason == "parentalInterference") %>% count() %>% pull(n),
+    tech = list( # combined techincal difficulties and experimenter error for simplicity
+      s1= study_1_part %>% filter( keeper_reason %in% c("technicalDifficulties", "experimenterError")) %>% count() %>% pull(n),
+      s2= study_2_part %>% filter( keeper_reason %in% c("technicalDifficulties", "experimenterError")) %>% count() %>% pull(n)),
+    trials = list( # how many participants were excluded for not enough good trials (aka looking time less than minimum threshold)
+      s1 = study_1_part %>% filter( keeper_reason == "NotEnoughGoodTrials") %>% count() %>% pull(n) , 
+      s2 = study_2_part %>% filter(  keeper_reason == "NotEnoughGoodTrials") %>% count() %>% pull(n)
+    )))
+```
+
+### Participants
+
+Participants were `r printnum(n_count$N_bil$s1)` English--French or English--Spanish bilingual infants, as well as `r printnum(n_count$N_mono$s1)` monolingual infants. Instead of a power analysis, we conducted a sensitivity analysis, which is useful when there are constraints on time and participant recruitment [e.g., for hard-to-recruit populations like bilingual infants, @schottShouldTestMore2019; @lakensEquivalenceTestingPsychological2018]. Using a sensitivity analysis in G\*Power [@faulPowerFlexibleStatistical2007], we found that a mixed ANOVA with a sample size of 20 infants per group would yield 80% power to detect an effect of Cohen’s _d_ = .45. This value was used as our minimum effect size of interest for equivalence tests (presented in the Results section), and is comparable to the average effect size found in a meta-analysis of familiar word recognition studies using similar stimuli and testing mostly monolingual samples of the same age  [Cohen’s _d_ = 0.54, retrieved from @carbajalMetaLabVisualizationFamiliar2021; see also @carbajalMetaanalysisInfantsWordform2021]. Our original research plan was to test bilingual infants only, but we were able to further explore the effect of language background when an opportunity arose to test monolingual children in Montreal, Canada. Bilingual children were recruited in both Montreal, Canada (English--French bilinguals, *n* = `r n_count$N_bil$mtl$s1`) and in New Jersey, USA (English--Spanish bilinguals *n* = `r n_count$N_bil$nej$s1`). The language environment in these two communities is quite different: In Montreal, both English and French are widely spoken in the community, while in New Jersey, English is the majority language. The original research plan involved testing a sufficient number of bilingual infants in both locations to enable a comparison, but due to recruitment difficulties, only a limited number of infants in New Jersey met the language inclusion criteria articulated below and could be tested. Thus, the data from both locations were combined. Further information on age and gender is displayed in Table \@ref(tab:studyInfo).
+ 
+Infants' language exposure was assessed using the Multilingual Approach to Parent Language Estimates [@byers-heinleinMAPLEMultilingualApproach2020] which assesses infants' month-by-month exposure to languages from birth to the test date. Infants were considered monolingual if they were exposed to 90% or more of English or French, and bilingual if they were exposed to 25-75% of English and 25-75% of French or Spanish. The language that infants were exposed to the most was considered their dominant language, and the percentage of infants dominant in English is reported in Table \@ref(tab:studyInfo). On average, bilingual infants tested in Montreal heard their dominant language `r round(desc_language$Montreal_bi_dom_mean,0)`% (range: `r desc_language$Montreal_bi_dom_min`--`r desc_language$Montreal_bi_dom_max`%) and their non-dominant language `r round(desc_language$Montreal_bi_ndom_mean,0)`% (range: `r desc_language$Montreal_bi_ndom_min`--`r desc_language$Montreal_bi_ndom_max`%) of the time. Bilinguals tested in New Jersey heard their dominant language `r round(desc_language$NewJersey_bi_dom_mean,0)`% (range: `r desc_language$NewJersey_bi_dom_min`--`r desc_language$NewJersey_bi_dom_max`%) and their non-dominant language `r round(desc_language$NewJersey_bi_ndom_mean,0)` % (range: `r desc_language$NewJersey_bi_ndom_min`--`r desc_language$NewJersey_bi_ndom_max`%) of their time. Monolinguals tested in Montreal heard their dominant (native) language on average `r round(desc_language$Montreal_mono_dom_mean,0)`% (range `r desc_language$Montreal_mono_dom_min`--`r desc_language$Montreal_mono_dom_max`%) of the time. `r printnum(n_count$N_3rdLang$n, numerals =F, capitalize= T)` bilinguals had exposure to a third language (`r n_count$N_3rdLang$min`% and `r n_count$N_3rdLang$max`% exposure, respectively). The Language Mixing Scale [@byers-heinleinParentalLanguageMixing2013] was used to assess exposure to parental language mixing, and bilingual infants heard more mixing than monolingual infants (bilingual infants: `r round(n_count$lang_mix$bil$mean,2)`, *SD* = `r round(n_count$lang_mix$bil$sd,2)`, range = [`r n_count$lang_mix$bil$min`--`r n_count$lang_mix$bil$max`]; monolingual infants: `r n_count$lang_mix$mono$mean`, *SD* = `r round(n_count$lang_mix$mono$sd,2)`, range = [`r n_count$lang_mix$mono$min`--`r n_count$lang_mix$mono$max`]; `r n_count$lang_mix$t_test`, Cohen's *d* = `r n_count$lang_mix$d`). All participants were reported to have normal vision and hearing. Infants and their families were recruited through government-supplied birth lists, as well as in daycare centers, playgroups, and other child-focused community activities. Infants in New Jersey were tested between August 2016 and November 2017 and infants in Montreal were tested between February 2017 and November 2018.
+
+To achieve the final sample, `r n_count$total_part` infants and their families participated in the study. Two participants were tested during a pilot phase to verify that the study procedure was feasible, and were not included in data analysis. Of the remaining infants, `r printnum(n_count$excl$health, numerals=F)` was born prematurely (\< 37 weeks) and thus did not meet our health criteria, and `r n_count$excl$lang` did not meet the pre-specified language criteria. `r printnum(n_count$excl$tech$s1, numeral=F, capitalize = T)` infants were excluded for technical difficulties or experimenter error. Additionally, `r printnum(n_count$excl$trials$s1, numeral = F)` infants were excluded for contributing fewer than 8 trials with at least 2.5 s of looking time. Trials shorter than 2.5 s were excluded because infants needed to listen at least that long in order to encounter a switched-language word. Some infants completed fewer than 16 trials because they were fussing and their parent ended the study early, but in these cases infants were not automatically excluded from analysis and all usable trials were analyzed. There were no other exclusion criteria.
+
+```{r studyInfo, echo=F, results='asis', warning=F, message=F}
+
+apa_table(desc_sample %>% dplyr::select(-mean.LangMix, -study), escape = T, 
+          stub_indents =  list(`Study 1` = c(1,2), 
+                               `Study 2 ` = c(3,4)), 
+          col_spanners = list(`Age` = c(3,4,5)),
+          align = 'lcccccc',
+          caption = "Information about infant participants in Studies 1 and 2, presented separately for bilingual and monolingual groups.",
+          col.names = c("Language Background", "N", "Min", "Mean","Max", "% Male","% English dom."),
+          note = "All infants were tested in both studies in the same lab visit, but in a few cases infants only successfully completed one study. For monolinguals, the column % English dominant denotes the percent of children who are English monolinguals. As monolingual children were only tested in Montreal, children who are not English-dominant are French-dominant."
+) 
+
+```
+
+```{r music length}
+# get length of soundfiles to report in paper
+max_sound_length = readr::read_csv(here::here("03_output", "Minimum_Soundfile_lengths.csv"), col_types = cols())
+lengths = list(
+  s1 = list(
+    min = max_sound_length %>% filter(study == 1) %>% summarize(x= min(min_length)) %>% pull(x) %>% round(1),
+    max = max_sound_length %>% filter(study == 1) %>% summarize(x= max(max_length)) %>% pull(x) %>% round(1)),
+  s2 = list(
+    min = max_sound_length %>% filter(study == 2) %>% summarize(x= min(min_length)) %>% pull(x) %>% round(1),
+    max  = max_sound_length %>% filter(study == 2) %>% summarize(x = max(max_length)) %>% pull(x) %>% round(1) 
+  ))
+
+```
+
+### Stimuli
+
+In the head-turn preference procedure, visual stimuli were presented on both center and side screens to attract infants' attention. The visual stimuli differed between the Montreal and New Jersey test locations due to different lab conventions. Infants tested in Montreal saw an animation of a spinning rainbow-coloured citrus, infants tested in New Jersey saw a video recording of an orange flashing light. This was not expected to affect the pattern of results, as the visual stimulus only served to attract infants' attention, and was constant across auditory stimuli.
+
+Speech stimuli for infants tested in Montreal were recorded by a native English--French bilingual, and for infants tested in New Jersey by a native English--Spanish bilingual. All words were non-cognates, and were chosen because they are, on average, acquired early in language development. Word pairs presented together in a trial were always of the same grammatical gender, and were thematically dissimilar [@willitsToddlersActivateLexical2013]. To the extent possible, we avoided overlapping word onsets or codas, and we matched word pairs on number of phonemes, word frequency, and stress patterns (which was not possible for English--French disyllabic words due to differences in typical stress patterns across languages). Due to these constraints, the word pairs in the English--French and the English--Spanish versions of the study are partially but not fully overlapping. For the English--French version of the study, word pairs were dog - milk, kitty - book, mouth - door, cookie - foot and their French translations; for the English--Spanish version, word pairs were doggy - balloon, kitty - foot, mouth - milk, cookie - door and their Spanish translations. Examples of the stimuli used in the study can be seen in Table \@ref(tab:stimuli), and all original stimuli can be seen in Table S1 in the Supplementary Materials, and downloaded at  <https://osf.io/9dtwn/?view_only=81a3803f5660462a9648ec59ffc1c53e> [blinded link for peer review]. Each word was recorded separately, in a friendly, infant-directed manner, and then combined to form single-language (e.g., dog...milk) and switched-language trials (e.g., dog..._lait_). Speakers were asked to produce a consistent, hill-shaped prosodic contour across items [@nenchevaMomenttomomentPitchDynamics2021], and we selected tokens that sounded similar in their prosody across languages. Individual words were presented in alternation with a 500 ms pause between each word. Trials lasted `r lengths$s1$min`--`r lengths$s1$max` s depending on the length of the audio file. All looking times were capped at the shortest trial length to avoid introducing a difference in looking time based on the length of the audio file.
+
+Table: (\#tab:stimuli) Examples of single- and switched-language trials for English--French and English--Spanish versions of the studies. Each participant heard only one version (e.g., an English--French bilingual was randomly assigned to hear either the English or the French version of the study). Non-English words are *in italics*.
+
++------------------+---------+--------------------------------------------+----------------------------------------------+
+| Language Pair    | Version | Single-Language                            | Switched-Language                            |
++:================:+========:+:==========================================:+:============================================:+
+| Study 1                                                                                                                |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+| English--French  | English | Dog... Milk...                             | Dog... *Lait*...                             |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+|                  | French  | *Chien*... *Lait*...                       | *Chien*... Milk...                           |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+| English--Spanish | English | Doggy... Balloon...                        | Doggy... *Globo*...                          |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+|                  | Spanish | *Perro*... *Globo*...                      | *Perro*... Balloon...                        |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+| Study 2          |         |                                            |                                              |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+| English--French  | English | Do you like the milk? I want the dog!      | Do you like the *lait*? I want the *chien*!  |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+|                  | French  | *Aimes-tu le lait?* *Je veux le chien!*    | | *Aimes-tu le* milk? *Je veux le* dog!      |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+| English--Spanish | English | Do you like the balloon? I want the doggy! | Do you like the *globo*? I want the *perro*! |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+|                  | Spanish | *¿Te gusta el globo?* *Quiero el perro.*   | *¿Te gusta el* balloon? *Quiero el* doggy.   |
++------------------+---------+--------------------------------------------+----------------------------------------------+
+
+
+### Procedure
+
+Infants sat on their caregiver's lap in a sound-attenuated room with three monitors, one centered, one to the left, and one to the right of the infant. The caregiver listened to music through a set of headphones to avoid influencing the infant's reactions. The experimenter controlled the study via custom Matlab software [@olsonWisconsinInfantStudies2017]. The experimenter was in a different room for infants tested in Montreal or in the same room but listening to masking music through headphones for infants tested in New Jersey. In both cases, the experimenter was unaware of the experimental condition on each trial. At the start of each trial, the visual stimulus appeared on the center screen. Once the experimenter observed that the infant looked at the center screen, the visual stimulus appeared on either the left or the right screen. When the infant turned their head to look at the side screen, the experimenter pressed a button and the auditory stimulus started playing. The trial ended when the infant looked away from the side screen for two consecutive seconds, or once the entire trial was complete (\~ 21s). If the infant looked to the side for less than 2 s total on any trial, that trial was skipped and then automatically repeated after the final trial.
+
+Infants first completed two practice trials, which presented a non-language sound (Montreal: whistle sound; New Jersey: beep tones). Next, infants encountered 16 test trials. Half of the test trials were single-language trials, where all target words were in a single language. The other half were switched-language trials, where the language alternated between English and French (Montreal) or English and Spanish (New Jersey). Single-language trials were presented in a consistent language for each infant, to limit the occurrence of language switches between trials, such that language switches primarily occurred within switched-language trials. Monolingual infants heard the single-language trials in their native language, and bilingual infants were randomly assigned to hear single-language trials in their dominant or their non-dominant language.
+
+The order of trials was pseudo-randomized, with the constraint that the same word pairs could not appear on consecutive trials, and no more than three trials of one type (single-language, switched-language) appeared consecutively. Each trial type appeared equally on the left and the right side, and no more than three consecutive trials appeared on the same side. The side of presentation was independent of the stimulus type.
+
+Parents were asked about their child’s language background using the LEQ structured interview and MAPLE approach [@byers-heinleinMAPLEMultilingualApproach2020], which asks about the child’s lifetime exposure to different languages. Furthermore, parents filled out the Language Mixing Scale [@byers-heinleinParentalLanguageMixing2013], which asks how often parents switch between their languages when speaking to their infant. For one infant tested in Montreal and one tested in New Jersey, scores from the Language Mixing Scale were not available. As part of standard laboratory protocols, Montreal parents also completed a questionnaire with general demographic information, as well as the MacArthur-Bates Communicative Development Inventories in American English [@fensonMacArthurBatesCommunicativeDevelopment2007] and Quebec French [@trudeauAdaptationFrancaisQuebecois1999]. Questionnaires were completed either prior to or following the experimental portion of the study. Infants received a certificate and/or a small gift for their participation.
+
+```{r}
+# get info on offline coding for the following section
+offline_corr = readRDS(here::here("03_output","tables","Double_Coding","Corr_offline.rdata")) 
+error_summary = readRDS(here("03_output","tables","Double_Coding","summary_errors.rdata"))
+
+# create nested lists with values for text
+coding_data = list(
+  # coding missing for how many keepers?
+  missing_s1 = study_1_keeper %>% filter(coding_missing == 1) %>% count() %>% pull(n),
+  missing_s2 = study_2_keeper %>% filter(coding_missing == 1) %>% count() %>% pull(n),
+  # correlations between online & offline coding, separately for studies 1&2 and location
+  corr_mtl_s1 = offline_corr %>% filter(study == 1,  test_location == "Montreal") %>% pull(report_full) %>% unlist(),
+  corr_nej_s1 = offline_corr %>% filter(study == 1,  test_location == "NewJersey") %>% pull(report_full) %>% unlist(),
+  corr_mtl_s2 = offline_corr %>% filter(study == 2,  test_location == "Montreal") %>% pull(report_full) %>% unlist(),
+  corr_nej_s2 = offline_corr %>% filter(study == 2,  test_location == "NewJersey") %>% pull(report_full) %>% unlist(),
+  # errors in online coding, by study and location
+  err_short_s1 = error_summary[[2]] %>% filter(study == 1) %>% pull(ErrorShort) *100,
+  err_long_s1 = error_summary[[2]] %>% filter(study == 1) %>% pull(ErrorLong) *100,
+  err_short_s2 = error_summary[[2]] %>% filter(study == 2) %>% pull(ErrorShort) *100,
+  err_long_s2 = error_summary[[2]] %>% filter(study == 2) %>% pull(ErrorLong) *100)
+```
+
+### Coding
+
+During the study, a trained experimenter blind to the auditory stimuli watched the infant through a live video feed and pressed  buttons corresponding to a look to the left, right, or center monitor. A trained research assistant later re-coded the videos offline, frame-by-frame, with the sound off.  For five participants, no offline coding was conducted, due to technical difficulties with the video recording (_n_ = `r printnum(coding_data$missing_s1, numerals = TRUE)`) and due to a procedural omission because the participant did not complete the minimum looking criterion (_n_ = 1), and so the online coded data was analyzed. In these cases, we excluded trials that the experimenter flagged as coding errors, but retained the rest of the trials, as correlations between online and offline coding were high. We performed two checks to compare the experimenter's online coding to the offline coding [following @fergusonCommunicativeSignalsSupport2016]. First, the correlation between the offline and online coders' assessment of total looking times for each trial indicated high agreement for infants tested in Montreal (`r coding_data$corr_mtl_s1`) as well as those tested in New Jersey (`r coding_data$corr_nej_s1`). Of particular importance for the head-turn preference procedure is whether the trial ended correctly during online coding, as the dependent measure is the total looking time for a trial. Recall that the experimental program ended a trial 2 s after an infant had looked away. A buffer of +/-.5 s was allowed to account for the time the online coder needed to react during the study. We thus examined the proportion of trials where the end time was either less than 1.5 s after the infant had looked away (indicating a trial that ended earlier than intended) or more than 2.5 s after the infant had looked away (indicating a trial that ended later than intended), according to offline coding. Overall, `r coding_data$err_short_s1`% of trials ended earlier than intended and `r coding_data$err_long_s1`% of trials ended later than intended. We did not exclude trials with these errors, but used offline-coded looking times in statistical analyses for all infants (when available).
+
+```{r}
+# create values for in-text numbers in results section
+res_desc = list(
+  # number of trials prior to exclusion (including babies who were ultimately excluded for not enough trials)
+  # plus, min & max by study
+n_trials_pre_s1 = study_1_part %>% 
+  filter(keeper_pre_data_analysis ==1) %>%
+  summarize(Ntrials_pP = mean(n_trials_prior_exclusion, na.rm = TRUE)) %>% 
+  pull(Ntrials_pP) %>% 
+  round(2),
+n_trials_pre_s2 = study_2_part %>% 
+  filter(keeper_pre_data_analysis ==1) %>%
+  summarize(Ntrials_pP = mean(n_trials_prior_exclusion, na.rm = TRUE)) %>% 
+  pull(Ntrials_pP) %>% 
+  round(2),  
+min_trials_pre_s1 = study_1_part %>% 
+  filter(keeper_pre_data_analysis ==1) %>%
+  summarize(Ntrials_min = min(n_trials_prior_exclusion, na.rm = TRUE)) %>% 
+  pull(Ntrials_min),
+min_trials_pre_s2 = study_2_part %>% 
+  filter(keeper_pre_data_analysis ==1) %>%
+  summarize(Ntrials_min = min(n_trials_prior_exclusion, na.rm = TRUE)) %>% 
+  pull(Ntrials_min),
+max_trials_pre_s1 = study_1_part %>% 
+  filter(keeper_pre_data_analysis ==1) %>%
+  summarize(Ntrials_max = max(n_trials_prior_exclusion, na.rm = TRUE)) %>% 
+  pull(Ntrials_max),
+max_trials_pre_s2 = study_2_part %>% 
+  filter(keeper_pre_data_analysis ==1) %>%
+  summarize(Ntrials_max = max(n_trials_prior_exclusion, na.rm = TRUE)) %>% 
+  pull(Ntrials_max),
+# number of trials, mininum, max by study
+n_trials_s1 = study_1_keeper %>% 
+  summarize(Ntrials_pP = mean(n_trials, na.rm = TRUE)) %>% 
+  pull(Ntrials_pP) %>% 
+  round(2),
+n_trials_s2 = study_2_keeper %>% 
+  summarize(Ntrials_pP = mean(n_trials, na.rm = TRUE)) %>% 
+  pull(Ntrials_pP) %>% 
+  round(2),
+min_trials_s1 = study_1_keeper %>% 
+  summarize(Ntrials_min = min(n_trials, na.rm = TRUE)) %>% 
+  pull(Ntrials_min),
+min_trials_s2 = study_2_keeper %>% 
+  summarize(Ntrials_min = min(n_trials, na.rm = TRUE)) %>% 
+  pull(Ntrials_min),
+max_trials_s1 = study_1_keeper %>% 
+  summarize(Ntrials_max = max(n_trials, na.rm = TRUE)) %>% 
+  pull(Ntrials_max),
+max_trials_s2 = study_2_keeper %>% 
+  summarize(Ntrials_max = max(n_trials, na.rm = TRUE)) %>% 
+  pull(Ntrials_max),
+# means by trial type and study
+mean_sing_s1 = summary_LT %>% filter(study ==  1, cond == "single") %>% pull(mean_LT) %>% round(2),
+mean_sing_s2 = summary_LT %>% filter(study ==  2, cond == "single") %>% pull(mean_LT) %>% round(2),
+mean_swi_s1  = summary_LT %>% filter(study ==  1, cond == "switched") %>%  pull(mean_LT) %>% round(2),
+mean_swi_s2 = summary_LT %>%  filter(study ==  2, cond == "switched") %>% pull(mean_LT) %>% round(2),
+# sd by trial type and study
+sd_sing_s1  = summary_LT %>% filter(study ==  1, cond == "single") %>% pull(SD_LT) %>% round(2),
+sd_sing_s2  = summary_LT %>% filter(study ==  2, cond == "single") %>% pull(SD_LT) %>% round(2),
+sd_swi_s1   = summary_LT %>% filter(study ==  1, cond == "switched") %>% pull(SD_LT) %>% round(2),
+sd_swi_s2   = summary_LT %>% filter(study ==  2, cond == "switched") %>% pull(SD_LT) %>% round(2),
+# effect sizes
+es_s1 = es_studies %>% filter(study ==1) %>% pull(cohen_d) %>% round(2),
+es_s2 = es_studies %>% filter(study ==2) %>% pull(cohen_d) %>% round(2)
+)
+
+```
+
+# Results
+
+We assessed infants' detection of language switching by measuring their looking times (i.e., listening times) to single- vs. switched-language word lists. Looking times were log-transformed for all statistical analyses [@csibraStatisticalTreatmentLookingTime2016], and figures show looking times prior to log transformation. After excluding trials with low looking time, the final sample of participants contributed on average `r res_desc$n_trials_s1` trials (range: `r res_desc$min_trials_s1`--`r res_desc$max_trials_s1`). Data were analyzed using R version 4.0.3 [@rcoreteamLanguageEnvironmentStatistical2020] and the reproducible manuscript was created using papaja and citr [@austCitrRStudioAddin2019; @austPapajaCreateAPA2020]. Looking times are shown in Table \@ref(tab:tab-LT) and Figure \@ref(fig:fig1) for each group (bilingual, monolingual) on each trial type (single-language, switched-language). Figure \@ref(fig:fig2) shows the same data but using difference scores of looking-time across trial types (calculated as *M~switched~* - *M~single~*) in order to highlight individual infants' performance. The average looking time for single-language trials was `r res_desc$mean_sing_s1` s (*SD* = `r res_desc$sd_sing_s1` s) and for switched-language trials was `r res_desc$mean_swi_s1` s (*SD* = `r res_desc$sd_swi_s1` s).
+
+```{r tab-LT, echo=F, results='asis', warning=F, message=F}
+apa_table(diff.table %>% dplyr::select(-study), 
+          digits=2, 
+          escape = T,
+          stub_indents =  list(`Study 1` = c(1,2), 
+                               `Study 2` = c(3,4)), 
+          align = 'lccc',
+          caption = "Mean looking times (standard deviations) and effect sizes in Studies 1 and 2.",
+          col.names = c( "Language Background","Single-Language", "Switched-Language",
+                        "Cohen's _d_")) 
+
+```
+
+We conducted ANOVAs to investigate whether infants' looking patterns were affected by trial type (single-language, switched-language) and infants' language background (bilingual, monolingual). Due to difficulties in recruitment in New Jersey, we were unable to add test location as a between-subjects variable as we only had 7 participants in New Jersey. In the Supplementary Materials, we reported a separate ANOVA with the same design on data from infants tested in Montreal only, as well as descriptive data on the infants tested in New Jersey, which showed patterns consistent with the combined analysis presented here. In a 2 × 2 mixed ANOVA with trial type (single-language, switched-language) as a within-subjects factor and language background (bilingual, monolingual) as a between-subjects factor, we found no statistically significant main effects (trial type: `r aov_s1_apa$cond`, language background: `r aov_s1_apa$lang_group`) or interaction (`r aov_s1_apa$lang_group_cond`). Thus, we did not find any evidence of greater attention to one trial type over the other, and bilinguals and monolinguals performed similarly.
+
+```{r fig1, fig.cap = "Mean looking times averaged across participants for single-language and switched-language trials, displayed separately for each language group. Left: Study 1 (word lists). Right: Study 2 (natural sentences). Error bars indicate standard error of the mean. "}
+knitr::include_graphics(path = here("03_output","figures","LTBarGraph.png"))
+```
+
+Given the lack of a statistically significant difference, we then aimed to understand if our results reflected a true null effect or if we had insufficient power to detect a significant effect. To do so, we conducted equivalence tests [@lakensEquivalenceTestingPsychological2018] to examine whether the effect size is likely smaller than our smallest effect size of interest, and therefore test for the absence of an effect. We set the smallest effect size of interest to be *d* = `r st.ef`, based on the minimum detectable effect size we found in our sensitivity analysis [@lakensEquivalenceTestsPractical2017]. The equivalence test comparing the observed effect size in Study 1 to the smallest effect size of interest (i.e., of *d* = `r st.ef`) was significant (`r TOST.results %>% filter(study ==  1) %>% pull(full_result)`), meaning that the observed effect size (*d* = `r res_desc$es_s1`) was significantly within the interval from *d* = -`r st.ef` to *d* = `r st.ef`. This result indicates that we can reject a true effect size larger than _d_ = `r st.ef` (or smaller than _d_ = - `r st.ef`). In other words, the equivalence test suggests a true null result for infants’ looking times on single- and switched-language trials in lists of words.
+
+
+```{r fig2,  fig.cap = "Difference scores showing individual participants' looking time to switched-language relative to single-language trials (_M_~_switched_~ - _M_~_single_~). Higher values on the y-axis indicate longer looking to switched-language trials, and lower values indicate longer looking to single-language trials. This figure shows the same data as Figure 1, but displayed to highlight individual participant data."}
+knitr::include_graphics(path =here("03_output","figures","DiffLTbyGroup.png"))
+```
+
+```{r intext calculations}
+# numbers for exploratory analyses
+ex = list(
+  corr_s1 =  corr %>% filter(study == 1) %>% pull(report_word),
+  corr_s2 =  corr %>% filter(study == 2) %>% pull(report_word),
+  # effect sizes & number of kids tested for kids tested in dominant & non-dominant study, by study
+  d_dom_s1  = cohen_dom %>% filter(study_dom == "dominant", study == 1) %>% pull(cohen_d),
+  d_dom_s2  = cohen_dom %>% filter(study_dom == "dominant", study == 2) %>% pull(cohen_d),
+  n_dom_s1  = cohen_dom %>% filter(study_dom == "dominant", study == 1) %>% pull(n),
+  n_dom_s2  = cohen_dom %>% filter(study_dom == "dominant", study == 2) %>% pull(n),
+  d_ndom_s1 = cohen_dom %>% filter(study_dom != "dominant", study == 1) %>% pull(cohen_d),
+  d_ndom_s2 = cohen_dom %>% filter(study_dom != "dominant", study == 2) %>% pull(cohen_d),
+  n_ndom_s1 = cohen_dom %>% filter(study_dom != "dominant", study == 1) %>% pull(n),
+  n_ndom_s2 = cohen_dom %>% filter(study_dom != "dominant", study == 2) %>% pull(n), 
+  # correlation with balancedness, by study
+  corr_bal_s1 =  corr_lang_dom %>% filter(study == 1) %>% pull(report_word),
+  corr_bal_s2 =  corr_lang_dom %>% filter(study == 2) %>% pull(report_word)
+)
+```
+
+### Exploratory Analyses
+
+We conducted additional analyses to examine individual differences in infants' detection of language switching. These analyses should be interpreted with caution, as they were exploratory. First, we calculated a Pearson correlation to examine whether infants who heard more language mixing at home performed differently in the experimental task than those who heard less language mixing at home. However, there was no evidence of a correlation between infants' language mixing score and their difference scores between looking time to single-language and switched-language trials (`r ex$corr_s1`).
+
+Second, we examined whether bilingual infants who heard single-language trials in their dominant language performed differently from those who heard the single-language trials in their non-dominant language. This was motivated by previous findings that infants' processing of language switching in word comprehension is asymmetrical across the two languages [@byers-heinleinBilingualInfantsControl2017; @potterBilingualInfantsProcess2018; @potterBilingualToddlersComprehension2019]. Descriptively, the effect size for the difference between single and switched trials was larger for the subgroup of bilingual infants for whom the single-language trials were in their dominant language (dominant language: Cohen's *d* = `r ex$d_dom_s1`, *n* = `r ex$n_dom_s1`; non-dominant language: Cohen's *d* = `r ex$d_ndom_s1`, *n* = `r ex$n_ndom_s1`). However, the two-sample *t*-test comparing difference scores of looking to single and switched trials between participants tested in their dominant compared to non-dominant language was not statistically significant (`r t_test_dom %>% filter(study ==  1) %>% pull(t.test.res)`). We note that the subgroups tested in each language were very small, and thus our analysis is both underpowered and subject to non-meaningful fluctuations in observed effect size. However, our results leave open the possibility that infants would detect language switches if the majority of words were in their dominant language, and this could be examined systematically in future investigations.
+
+Third, we also explored whether bilingual infants who are exposed to their two languages in a more balanced manner (close to 50/50 %) respond differently in our task compared to unbalanced bilingual infants (those closer to 25/75 %). To investigate this, we correlated infants' performance in the task with their exposure to the non-dominant language (ranging from 25% or "unbalanced" to 50% or "balanced"). We found no statistically significant correlation (`r ex$corr_bal_s1`), suggesting that balanced and unbalanced bilinguals performed similarly in Study 1.
+
+## Discussion
+
+Study 1 indicated that 8- to 12-month-old bilingual and monolingual infants were unable to detect single-word language switches in word lists. There was no difference between infants' looking times on single-language compared to switched-language trials, and the effect size of the difference was statistically equivalent to zero. It may be that infants were unable to detect the language-switched words because the word lists used in the task are not typical of natural speech. Language input to children largely consists of multi-word utterances and sentences, rather than words in isolation [@brentRoleExposureIsolated2001]. Thus, naturally-occurring language switches may be more likely to be embedded within a sentence. Study 2 examined whether infants can detect language switches within natural sentences.
+
+# Study 2: Language Switches in Sentences
+
+## Method
+
+### Participants
+
+Participants in Study 2 were `r n_count$N_bil$s2` English--French or English--Spanish bilingual infants and `r n_count$N_mono$s2` monolingual infants, largely overlapping with the infants who participated in Study 1 (see Supplementary Materials). Infants were tested in Study 1 and then Study 2 during the same visit. Inclusion criteria and number of infants excluded for health (*n* = `r n_count$excl$health`) and language (*n* = `r n_count$excl$lang`) were the same as those in Study 1. `r printnum(n_count$excl$parental, numerals = F, capitalize = T)` infant did not participate in Study 2 due to fussiness (their caregiver stopped participation during Study 1). Additionally, infants were excluded for equipment failure or experimenter error (*n* = `r printnum(n_count$excl$tech$s2)`), as well as for contributing fewer than 8 trials with at least 2 s of looking time (*n* = `r n_count$excl$trials$s2`). The minimum looking time was set to 2 s, which was the first moment infants would be able to hear a language switch in Study 2.
+
+### Stimuli
+
+The visual stimulus was a video of a colourful animated pinwheel (Montreal) or an orange flashing light (New Jersey), distinct from but comparable in attractiveness and salience to the visual stimuli used in Study 1. Study 2 used the same nouns as Study 1, but they were presented in a sentence context instead of in isolation (see examples in Table \@ref(tab:stimuli) and the full list in Table S1 in Supplementary Materials). Both single- and switched-language trials began with a phrase in the same language, i.e., in English, French, or Spanish (e.g., English: "Do you like the ..."/ "I want the ..."), see Table S1 in the Supplementary Materials for the full list of stimuli. On single-language trials, the sentence-final target noun was presented in the same language as the sentence frame, whereas on switched-language trials the sentence-final noun was presented in the other language. The same bilingual female speakers produced the stimuli in Studies 1 and 2. The recordings used to create the stimuli for Study 2 were not spliced, but were recorded in a single session to retain the naturalistic articulatory features of the language switch. Care was taken to ensure that prosody, intonation, and phonetic realization were appropriate for the intended language, especially for words adjacent to the language switch. Words embedded in a statement sentence had a hill-shaped prosodic contour, and words embedded in a question had a rising prosodic contour [@nenchevaMomenttomomentPitchDynamics2021]. Trials lasted `r lengths$s2$min`--`r lengths$s2$max` s, and were capped at the length of the shortest sound file, comparable to Study 1.
+
+### Procedure
+
+The trial structure and experimental procedure were the same in Studies 1 and 2. Infants first completed Study 1, and then the researcher asked the parent to play with their infant while Study 2 was set up. This break was typically 2--3 minutes long, unless the infant needed to be fed or changed. We chose to present Study 2 after Study 1 because we expected that the naturalistic sentences presented in Study 2 would be more engaging to infants than the word lists presented in Study 1, thus increasing the likelihood of infants remaining attentive throughout both studies.
+
+### Coding
+
+The same coding procedure from Study 1 was used for Study 2. For five participants, offline coding was not  available, either due to technical problems with the video recording (_n_ = `r printnum(coding_data$missing_s2, numerals = TRUE)`), or due to a procedural omission because the participant did not complete the minimum looking criterion (_n_ = 1). Data from the participants without video recording were retained because correlations between online and offline coding were high. The correlation between online and offline coding of total looking times for each trial was high for infants tested in Montreal (`r coding_data$corr_mtl_s2`) as well as New Jersey (`r coding_data$corr_nej_s2`). Offline coding showed `r coding_data$err_short_s2` % of trials ended earlier than intended and `r coding_data$err_long_s2` % of trials ended later than intended. As in Study 1, we did not exclude trials with these errors, but used offline coded looking times when possible.
+
+## Results
+
+The analytic strategy for Study 2 paralleled that of Study 1. After excluding trials with low looking and participants who subsequently did not provide the minimum number of trials to be included, the final sample on average contributed `r res_desc$n_trials_s2` trials (range: `r res_desc$min_trials_s2`--`r res_desc$max_trials_s2`). The average looking time for single-language trials was `r res_desc$mean_sing_s2` s (*SD* = `r res_desc$sd_sing_s2` s) and for switched-language trials was `r res_desc$mean_swi_s2` s (*SD* = `r res_desc$sd_swi_s2` s). The results for Study 2 can be seen in the right panels of Figures \@ref(fig:fig1) and \@ref(fig:fig2). Log-transformed looking times were entered into a 2 × 2 ANOVA with trial type (single-language, switched-language) as a within-subjects factor and language background (bilingual, monolingual) as a between-subjects factor. Trial type was not statistically significant (trial type: `r aov_s2_apa$cond`), and neither were the other main effects and interactions (language background: `r aov_s2_apa$lang_group`; interaction trial type × language background: `r aov_s2_apa$lang_group_cond`). This indicates that neither bilingual nor monolingual infants detected differences between single-language and switched-language sentences.
+
+As in Study 1, we used equivalence tests to test whether our observed effect size was smaller than our minimal detectable effect size of Cohen's *d* = `r st.ef`. The equivalence test was not statistically significant (`r TOST.results %>% filter(study ==  2) %>% pull(full_result)`), meaning that the observed effect size (*d* = `r res_desc$es_s2`) in our study may not fall significantly within the interval of  *d* = -`r st.ef` to *d* = `r st.ef` . This indicates that we cannot reject the hypothesis that the true effect size is Cohen's *d* = `r st.ef` or larger (or smaller than *d* = -`r st.ef`). Thus, our data are unsurprising in both cases, whether they were sampled from a null distribution centered around 0 (based on our ANOVA), or whether they were sampled from a distribution centered around *d* = 0.45 (based on the equivalence tests).  In this case, we have insufficient data to draw a definite conclusion [@lakensEquivalenceTestingPsychological2018], and future research will need to include a larger sample size.
+
+### Exploratory Analyses
+
+We again examined individual differences in performance as a function of exposure to language switching, and language dominance. There was no correlation between infants' language mixing score and their difference scores between looking time to single-language and switched-language trials (`r ex$corr_s2`). In the small subgroup of bilingual infants tested in their dominant language, anecdotally effect sizes were larger (dominant language: Cohen's *d* = `r ex$d_dom_s2`, *n* = `r ex$n_dom_s2`; non-dominant language: Cohen's *d* = `r ex$d_ndom_s2`, *n* = `r ex$n_ndom_s2`), although again, a two-sample *t*-test comparing difference scores for those tested in their dominant and non-dominant language was not statistically significant (`r t_test_dom %>% filter(study ==  2) %>% pull(t.test.res)`), and subgroups tested in each language were very small. Thus, in Studies 1 and 2, descriptively larger effects were observed when single-language trials were presented in the dominant language, and this should be investigated more systematically. The correlation between balance of exposure for bilinguals and task performance trended towards but did not reach statistical significance (`r ex$corr_bal_s2`), with less balanced children showing a numerically larger difference in looking to single- compared to switched-language trials. This finding should be replicated in a larger sample size before we can interpret it.
+
+### Comparison of Studies 1 and 2
+
+We compared infants' looking times in Studies 1 and 2 in a 2 × 2 × 2 ANOVA with trial type (single-language, switched-language) and study (Study 1, Study 2) as within-subject factors, and language background as between-subject factor. We did not include the three-way interaction between trial type, study and language background due to concerns about low statistical power. Only participants who had usable data in both studies were included (*n* = `r length(keepers_both_studies)`). The main effect of study was statistically significant (`r aov_combined_apa$study`), indicating that regardless of trial type, infants looked longer in Study 1 than Study 2 (*M~Study 1~* = `r agg.data.bySub %>% group_by(study) %>% summarize(mean = mean(meanLT, na.rm=T)) %>% filter(study ==  1) %>% pull(mean)`, *M~Study 2~* = `r agg.data.bySub %>% group_by(study) %>% summarize(mean = mean(meanLT, na.rm=T)) %>% filter(study ==  2) %>% pull(mean)`). None of the other main effects or interactions were statistically significant (trial type: `r aov_combined_apa$cond`; language background: `r aov_combined_apa$lang_group`; trial type × study: `r aov_combined_apa$cond_study`; study × language background: `r aov_combined_apa$cond_lang_group`). This suggests that infants' looking times were not affected by trial type across both studies.
+
+# General discussion
+
+
+Bilingual infants regularly encounter switches between their two languages. Often these switches occur following long passages of speech, but they can also consist of a single word borrowed from the other language (e.g., “What a cute chien [fr. dog]”). Using the head-turn preference procedure, we tested whether bilingual and monolingual infants could detect single-word language switches by measuring their attention to single-language versus switched-language stimuli. We used two complementary types of statistical tests: ANOVAs in a null-hypothesis framework, and equivalence tests. ANOVAs indicate whether our observed effect is significantly different from zero and surprising under the null hypothesis, and equivalence tests indicate whether the observed effect is within the bounds of the smallest effect size of interest we set, and therefore practically not meaningful in the context of our study. 
+
+The results from Study 1 overall indicate that infants could not detect single-word language switches. However, the results from Study 2 were inconclusive: they do not provide strong evidence either way with regards to whether infants can detect switches that occur in naturalistic sentences. The effect size in Study 2 was small, but non-zero (_d_ = `r res_desc$es_s2`). Such an effect size is not unexpected both in the case that infants cannot perform the task, and in the case that they can. Furthermore, we had expected language switches in sentences to be easier to detect, yet we did not find a difference between Studies 1 and 2 in the omnibus ANOVA. 
+
+There are two main reasons why we had expected a larger effect in Study 2. First, sentences are more typical of infants’ everyday experiences, allowing them to engage mechanisms that support real-time language processing, such as statistical learning and prediction [see @potterInfantsSelectiveUse2019]. This may enable anticipation of the sounds and sound patterns that match the preceding words and ‘surprisal’ when the actual perceived sounds do not match those. Second, the switched-language sentences were produced naturalistically rather than by splicing, which might have afforded extra cues (e.g., coarticulation) in the speech signal even prior to the actual switch location [@frickePhoneticVariationBilingual2016]. In contrast, the isolated words were recorded in English-only and French-only contexts, and thus did not provide additional coarticulatory cues to the switch. Nevertheless, we believe that future studies should prioritize studying language switches in sentences, since the equivalence tests in Study 2 indicated a possibly meaningful effect size. At the same time, it should be noted that infants participated in our studies in a fixed order, to minimize fussiness and attrition as we predicted that Study 2 would be more interesting to the infants.  A study published after the current work was undertaken suggests that infants with more previous experience with the head-turn preference procedure in other lab visits showed a larger novelty preference than those with less experience [see @santolinExperienceResearchParadigms2021]. Although in our case infants were tested twice within the same lab visit, we cannot rule out the possibility that infants’ experience in Study 1 boosted their performance in Study 2.
+
+We had predicted that bilinguals would show larger differences in response to language switching than monolinguals, but this was not supported by the data. Instead, neither bilinguals nor monolinguals showed evidence of detecting switches in either study. Within the bilingual group in Study 2 (language switches embedded in sentences), there was a non-significant trend for less balanced bilinguals to show a stronger effect than more balanced bilinguals, a finding which should be tested in a larger sample before it can be interpreted. Based on our results, we cannot say whether routine exposure to two languages affects infants' ability to detect deviations from a single language. Even if our results had shown that both bilinguals and monolinguals can detect language switches at this age, they may do so via different underlying processes. It may be that bilingual infants detect switches by recognizing certain sounds and words in each of their languages, which appear in different combinations in single- and switched-language trials. In contrast, monolingual infants were only familiar with one of the languages in the study, and thus could succeed on such a task by simply listening longer during trials that contained unfamiliar sounds and words (i.e., switched-language trials). Given our inconclusive results, our data cannot currently speak to these intriguing possibilities. To better understand the reasons behind bilingual and monolingual infants' performance on this task, future studies could avoid these issues of interpretation by using novel words that conform to phonological patterns in each language, but are unfamiliar to both groups.
+
+Although we did not observe an impact of bilingual vs. monolingual language exposure in this investigation, there may be differential sensitivity to language switching depending on the frequency of switching in the bilingual input. This frequency is known to vary across different language communities and individual families [@bailLookGatoCodeswitching2015; @byers-heinleinParentalLanguageMixing2013; @kreminCodeswitchingParentsEveryday2021]. In a recent study on English–French bilingual infants in Montreal, parental language mixing was a relatively rare occurrence [@kreminCodeswitchingParentsEveryday2021; @orenaReliabilityLanguageEnvironment2019], but there may be much more language mixing in other communities, such as certain English--Spanish bilingual communities in the United States [@bailLookGatoCodeswitching2015]. There appears to be variation in how English–-French and English–-Spanish bilingual toddlers learn words in switched-language sentences [@byers-heinleinEffectsLanguageMixingunderreview], which raises the possibility that there are early-emerging differences in processing across different bilingual communities. While we had originally planned to compare these two populations in our analyses, the small sample size of the English--Spanish group prevented us from doing so. This is a limitation of our study that we hope will be remedied in future work. Studies that examine language mixing and bilingual input in different communities will be crucial for understanding pathways to bilingual proficiency. It would also be interesting to explore how individual differences in language mixing, language balance and dominant language status interact with the detection of language switches. We computed separate correlation measures for these factors and found no significant relationships, but we found a trend for enhanced sensitivity when detecting switches embedded in the dominant language. We were not able to directly compare the performance of French-English and Spanish-English bilinguals due to sample size limitations. However we believe that including data from two bilingual communities is likely to make our results more generalizable. Future investigations exploring these moderators together would illuminate which aspects of the bilingual experience are most important to language switching. 
+
+Finally, it is important to consider whether our null/inconclusive results could be due to limitations of our experimental design to tap into infants’ underlying ability. We tested infants using the head-turn preference procedure, which has yielded strong effect sizes in meta-analyses [@bergmannPromotingReplicabilityDevelopmental2018], and has been revealing about many aspects of infants’ speech perception in infants of this age [e.g., @gaspariniQuantifyingRoleRhythm2020; @carbajalMetaanalysisInfantsWordforminpress]. However, we do note that other tasks have shown that older infants and toddlers are sensitive to single-word language switching. For example, several studies using both behavioral and ERP methods have found evidence that infants and toddlers respond distinctly to single-word language switching when viewing visual referents of the words spoken on the task [@byers-heinleinBilingualInfantsControl2017; @kuipersEventrelatedPotentialCorrelates2012; @potterBilingualInfantsProcess2018; @potterBilingualToddlersComprehension2019; @moriniDondeEstaBall2019]. Each of these studies tested children who were somewhat older than our participants (1.5 - 3 years old), who are more likely to have robust lexical representations of the stimuli. For such children, seeing a referent such as a picture of a dog when hearing “I like the …” could help infants generate predictions about the upcoming word, which then might help them recognize when they hear *chien* instead of dog. We cannot rule out that 8- to 12-month-old infants might succeed in a task that provides them with the visual referent. Nonetheless, our findings raise the possibility that perceptual information without referential context may be insufficient to support detection of single-word language switches in young infants.
+
+Our overarching research question was how bilingual infants make sense of the dual language input they are exposed to. From the literature, we know that 0- to 4-month-olds can show successful cross-sentence language discrimination [for a review, see @gaspariniQuantifyingRoleRhythm2020], and that in the second year of life they can detect single-word language switching [@byers-heinleinBilingualInfantsControl2017; @kuipersEventrelatedPotentialCorrelates2012; @potterBilingualInfantsProcess2018; @potterBilingualToddlersComprehension2019; @moriniDondeEstaBall2019]. Our study was novel because it tested whether infants can detect language switching during the period in-between these ages, when infants first start to recognize words. We did not find evidence that infants can detect single-word language switching at this age. This could mean that the ability to detect single-word language switching only starts to develop in the second year of life. If this is the case, it is unlikely that bilingual word learning in the context of mixed-language input relies on infants implicitly treating words from their two languages as belonging to different categories [@byers-heinleinLanguagesCategoriesReframing2014]. It could be that more robust lexical knowledge is required for infants to be able to distinguish single words from two different languages. Since we did not find statistically significant results, we cannot resolve this question. We hope that the studies described here can be a stepping stone towards answering this question. Future research can also disentangle which cues are most relevant to children to detect single-word language switches. For example, we have discussed lexical knowledge and coarticulation, but other factors such as phonology and phonotactics can also play a role. Together, existing research reveals that language discrimination is multifaceted, spans multiple levels of language, combines multiple perceptual domains, and may change over the course of development. Future work will need to determine both the nature of ‘successful’ discrimination and the ultimate learning-related value of discriminating languages in the first place.
+
+The present studies provide two main contributions. First, this work highlights a gap in the research into how bilingual infants make sense of their dual language input. While there is ample evidence that bilingual infants can discriminate some languages from birth when they hear whole sentences [@gaspariniQuantifyingRoleRhythm2020], it is only later in development around 20 months that the literature reports conclusive evidence for the ability to detect language switches for individual words [e.g., @byers-heinleinBilingualInfantsControl2017]. On the one hand, it may be that this is a much more difficult task with a protracted developmental time course. On the other hand, more sensitive experimental designs might be able to detect this ability earlier in development. This points to a more nuanced bilingual language development than previously thought. Second, we have reported results from two empirical studies aiming to directly test infants’ detection of single-word language switches. The results from Study 1 were null, and those from Study 2 were inconclusive. Although these findings are somewhat unsatisfying, it is nonetheless important that they have a place in published literature rather than in the "file drawer" [@nelsonPsychologyRenaissance2018]. We have shared our materials, data, and analysis scripts, so that our research can contribute to future empirical studies, comprehensive reviews, and meta-analyses. We hope that this work will motivate further research into how infants navigate the dynamics of language input in environments where two languages are present, in turn illuminating how bilingual infants acquire proficiency in both their languages.
+
+```{r}
+beepr::beep("mario") # this is just to notify you when the script is done, in case it takes a long time!
+```
+
+
+# References

@@ -1,0 +1,139 @@
+---
+appendix: Supplemental.Rmd
+output: word_document
+
+---
+Supplementary materials for Manuscript _Fine-tuning Language Discrimination_
+written by Esther Schott
+```{r}
+# done manually after knitting document:
+## - add "s" in front of table and figure numbers...
+## - fix table headers (merging)
+```
+
+```{r library, include=FALSE}
+# load all required libraries using the groundhog package (installs libraries that are not installed yet)
+source("groundhog_packages.R")
+
+knitr::opts_chunk$set(echo = TRUE)
+
+
+here()
+knit(here::here("01_Scripts/LM-04-analysis.Rmd"), quiet = TRUE)
+try(detach(package:tidylog))
+
+opts_chunk$set( cache = FALSE, warning = FALSE, message = TRUE, echo = FALSE)
+options(digits = 3, width = 88)
+
+full_stimuli = read_csv(here("02_data", "LittleMix_stimuli_word_pairs.csv"))
+
+
+```
+
+# Supplemental Materials
+
+## Stimuli used in Studies 1 and 2
+
+```{r}
+
+apa_table(full_stimuli %>% 
+            select(french_english_frword1, formatting_3, french_english_frword2, 
+french_english_enword1, formatting_4, french_english_enword2, spanish_english_spword1, formatting_1, spanish_english_spword2, 
+spanish_english_enword1, formatting_2, spanish_english_enword2), 
+          escape = T,
+          align = 'rclrcl',
+          caption = "Full list of stimuli used in Studies 1 and 2",
+          col.names = c("", "French Word Pair","","","English Word Pair","", "", "Spanish Word Pair","","",             "English Word Pair", ""),
+          note = "The same word pairs were used in Study 1 and 2, with words in Study 1 presented in a list of words, and in Study 2 embedded in sentences. Slightly different items were used for the French-English and Spanish-English stimuli as necessary (e.g., to match grammatical gender or number of syllables across conditions).  The table shows single-language trials, switched-language trials were created by substituting an English word with a French or Spanish word, e.g., substituting milk with _lait_ [fr. milk] to form dog - _lait_. Stimuli for Study 2 were formed by inserting the target words in sentence frames: Do you like the ___? I want the ___! (English); _Aimes-tu le/la_ ___? _Je veux le/la_ ___! (French); _¿Te gusta el/la_ ___? _Quiero el/la_ ___. (Spanish)") 
+```
+## Differences in Samples between Studies 1 and 2
+
+The samples for Studies 1 and 2 were largely overlapping, with some small differences. `r  printnum(length(excluded_s2), numerals = F, capitalize =T)` infants whose data were included in Study 1 were excluded from Study 2 for contributing fewer than 8 trials that met our minimum threshold of 2 s of looking time. The final sample for Study 2 included data from `r printnum(included_s2_only$n, numerals = F)` infants whose data had been excluded in Study 1 (for contributing too few trials, *n* = 2, or due to technical difficulties that only affected Study 1, *n* = 2). The dataset posted on OSF contains the full information about the samples in both studies (<https://osf.io/9dtwn/?view_only=81a3803f5660462a9648ec59ffc1c53e> [blinded link for peer review]).
+
+<!-- add number of trials completed in Mtl sample -->
+
+```{r numbers, echo=FALSE}
+Montreal_desc= list(
+  study1 = list(
+    mean_pre = mean(study_1_part %>% filter(keeper_pre_data_analysis ==1, test_location=="Montreal") %>% pull(n_trials_prior_exclusion), na.rm=T),
+    range_pre = range(study_1_part %>% filter(keeper_pre_data_analysis ==1,test_location=="Montreal") %>% pull(n_trials_prior_exclusion), na.rm=T),
+    mean_post = mean(study_1_part %>% filter(keeper== 1, test_location=="Montreal") %>% pull(n_trials), na.rm=T),
+    range_post = range(study_1_part %>% filter(keeper == 1, test_location=="Montreal") %>% pull(n_trials), na.rm=T),
+    mean_switch = loc_summary_LT %>% filter(test_location == "Montreal", study == 1, cond == "switched") %>% pull(mean),
+    mean_single = loc_summary_LT %>% filter(test_location == "Montreal", study == 1, cond == "single") %>% pull(mean),
+    sd_switch = loc_summary_LT %>% filter(test_location == "Montreal", study == 1, cond == "switched") %>% pull(sd),
+    sd_single = loc_summary_LT %>% filter(test_location == "Montreal", study == 1, cond == "single") %>% pull(sd),
+    lang_mono = Montreal_summary_LT_group %>% filter(study == 1, lang_group == "monolingual")%>% pull(mean),
+    lang_bil = Montreal_summary_LT_group %>% filter(study == 1, lang_group == "bilingual")%>% pull(mean)),
+  study2 = list(
+    mean_pre = mean(study_2_part %>% filter(keeper_pre_data_analysis ==1, test_location=="Montreal") %>% pull(n_trials_prior_exclusion), na.rm=T),
+    range_pre = range(study_2_part %>% filter(keeper_pre_data_analysis ==1, test_location=="Montreal") %>% pull(n_trials_prior_exclusion), na.rm=T),
+    mean_post = mean(study_2_part %>% filter(keeper == 1, test_location=="Montreal") %>% pull(n_trials), na.rm=T),
+    range_post = range(study_2_part %>% filter(keeper == 1, test_location=="Montreal") %>% pull(n_trials), na.rm=T),
+    mean_switch = loc_summary_LT %>% filter(test_location == "Montreal", study == 2, cond == "switched") %>% pull(mean),
+    mean_single = loc_summary_LT %>% filter(test_location == "Montreal", study == 2, cond == "single") %>% pull(mean),
+    sd_switch = loc_summary_LT %>% filter(test_location == "Montreal", study == 2, cond == "switched") %>% pull(sd),
+    sd_single = loc_summary_LT %>% filter(test_location == "Montreal", study == 2, cond == "single") %>% pull(sd))
+  
+)
+
+
+  
+  
+```
+
+## ANOVA for infants tested in [Test Location 1] only
+
+Initially, we planned to compare infants tested in [Test Location 1] and [Test Location 2]. However, we were unable to recruit a sufficient number of infants in [Test Location 2] who met the bilingual inclusion criteria. To test whether combining a small number of English--Spanish bilinguals with our full sample of English--French bilingual infants obscured any patterns of results present when analyzing only infants tested in [Test Location 1], we conducted an ANOVA that included only infants tested in [Test Location 1]. Excluding infants tested in [Test Location 2] yielded the same pattern of results reported in Study 1 (trial type: `r aov_s1_mtl.apa$cond`, language background: `r aov_s1_mtl.apa$lang_group`, language background × trial type interaction: `r aov_s1_mtl.apa$lang_group_cond`). The marginal effect of language background reflects that bilinguals had slightly longer looking times than monolingual infants (*M~bilingual~* = `r Montreal_desc$study1$lang_bil`, *M~monolingual~* = `r Montreal_desc$study1$lang_mono`); however this difference did not vary by trial type. In the ANOVA for Study 2 excluding infants tested in [Test Location 2], there was no significant main effect of trial type (`r aov_s2_mtl.apa$cond`), and no other significant effects (language background: `r aov_s2_mtl.apa$lang_group`, language background × trial type: `r aov_s2_mtl.apa$lang_group_cond`). These results are consistent with the results from the full sample, and indicate that adding data from infants tested in [Test Location 2] did not change the pattern of results present in infants tested in [Test Location 1].
+
+```{r echo=FALSE}
+nej_desc= list(
+  study1 = list(
+    n_pre = study_1_part %>% filter(keeper_pre_data_analysis ==1, test_location=="NewJersey") %>% nrow(),
+    mean_pre = mean(study_1_part %>% filter(keeper_pre_data_analysis ==1, test_location=="NewJersey") %>% pull(n_trials_prior_exclusion), na.rm=T), 
+      range_pre = range(study_1_part %>% filter(keeper_pre_data_analysis ==1, test_location=="NewJersey") %>% pull(n_trials_prior_exclusion), na.rm=T), 
+    n_post =  study_1_part %>% filter(keeper == 1, test_location=="NewJersey") %>% nrow(),
+  mean_post = mean(study_1_part %>% filter(keeper == 1, test_location=="NewJersey") %>% pull(n_trials), na.rm=T),
+      range_post = range(study_1_part %>% filter(keeper == 1, test_location=="NewJersey") %>% pull(n_trials), na.rm=T), # xx should this be keepers only?
+  mean_switch = loc_summary_LT %>% filter(test_location =="NewJersey", study == 1, cond == "switched") %>% pull(mean),
+  mean_single = loc_summary_LT %>% filter(test_location =="NewJersey", study == 1, cond == "single") %>% pull(mean),
+  sd_switch = loc_summary_LT %>% filter(test_location =="NewJersey", study == 1, cond == "switched") %>% pull(sd),
+  sd_single = loc_summary_LT %>% filter(test_location =="NewJersey", study == 1, cond == "single") %>% pull(sd)),
+  study2 = list(
+     n_pre = study_2_part %>% filter(keeper_pre_data_analysis ==1, test_location=="NewJersey") %>% nrow(),
+     n_post =  study_2_part %>% filter(keeper == 1, test_location=="NewJersey") %>% nrow(),
+     mean_pre = mean(study_2_part %>% filter(keeper_pre_data_analysis ==1, test_location=="NewJersey") %>% pull(n_trials_prior_exclusion), na.rm=T), 
+      range_pre = range(study_2_part %>% filter(keeper_pre_data_analysis ==1, test_location=="NewJersey") %>% pull(n_trials_prior_exclusion), na.rm=T), 
+  mean_post = mean(study_2_part %>% filter(keeper == 1, test_location=="NewJersey") %>% pull(n_trials), na.rm=T), 
+      range_post = range(study_2_part %>% filter(keeper == 1, test_location=="NewJersey") %>% pull(n_trials), na.rm=T), 
+  mean_switch = loc_summary_LT %>% filter(test_location =="NewJersey", study == 2, cond == "switched") %>% pull(mean),
+  mean_single = loc_summary_LT %>% filter(test_location =="NewJersey", study == 2, cond == "single") %>% pull(mean),
+  sd_switch = loc_summary_LT %>% filter(test_location =="NewJersey", study == 2, cond == "switched") %>% pull(sd),
+  sd_single = loc_summary_LT %>% filter(test_location =="NewJersey", study == 2, cond == "single") %>% pull(sd))
+  )
+
+
+```
+
+
+## Descriptive data for sample collected in [Test Location 2]
+
+We were unable to complete the full sample of English--Spanish bilingual infants tested in [Test Location 2] due to challenges in recruitment. Due to the small sample, we are unable to calculate statistical tests on this sample, but here we report descriptive data. In Study 1, after excluding participants for not meeting pre-specified health and language we were left with `r printnum(nej_desc$study1$n_pre)` participants. These participants completed on average `r round(nej_desc$study1$mean_pre,1)` trials (range: `r nej_desc$study1$range_pre[1]`--`r nej_desc$study1$range_pre[2]`) prior to the exclusion of trials that did not satisfy the minimum trial length, and `r printnum(nej_desc$study1$n_post)` participants who contributed `r round(nej_desc$study1$mean_post,1)` trials (range: `r nej_desc$study1$range_post[1]`--`r nej_desc$study1$range_post[2]`) after removal. Averaging looking times across infants for the two trial types in Study 1, infants tested in [Test Location 2] looked numerically but not statistically longer to switch than single trials, see Table \@ref(tab:lookingByLocation), a trend that is consistent with the results from [Test Location 1].
+
+In Study 2, after excluding participants for health, language and technical reasons, we were left with `r printnum(nej_desc$study2$n_pre)`. These participants completed on average `r round(nej_desc$study2$mean_pre,1)` trials (range: `r nej_desc$study2$range_pre[1]`--`r nej_desc$study2$range_pre[2]`) prior to the exclusion of trials that did not satisfy the minimum trial length, and `r printnum(nej_desc$study2$n_post)` who completed `r round(nej_desc$study2$mean_post,1)` trials (range: `r nej_desc$study2$range_post[1]`--`r nej_desc$study2$range_post[2]`) after removal. The average looking times for each trial type in Study 2 again showed a numerical trend of longer looking for switched-language than single-language trials, see Table \@ref(tab:lookingByLocation). The trends observed in the English--Spanish bilingual sample tested in [Test Location 2] in Studies 1 and 2 are consistent with those observed in the sample tested in [Test Location 1].
+
+```{r lookingByLocation}
+# add the ns to this table
+
+apa_table(loc_summary_LT %>% 
+              pivot_wider(names_from = "cond", values_from = c("mean", "sd"), names_glue = "{cond}_{.value}") %>% 
+              relocate(starts_with("single"), .before = "switched_mean") %>%
+            select(-study),
+          stub_indents =  list(`Study 1` = c(1,2), 
+                               `Study 2` = c(3,4)), 
+          caption = "Looking Times to Switch and Single-Language Trials by Test Location",
+          col.names = c( "Test Location", "N", "Mean", "SD", "Mean", "SD"))
+
+beepr::beep("mario")
+```
+

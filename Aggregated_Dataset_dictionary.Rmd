@@ -1,0 +1,112 @@
+---
+title: "Aggregated looking time dataset dictionary"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
+  pdf_document:
+    toc: yes
+    toc_depth: 2
+    latex_engine: xelatex
+---
+
+
+```{r setup}
+knitr::opts_chunk$set(
+  warning = TRUE, # show warnings during codebook generation
+  message = TRUE, # show messages during codebook generation
+  error = TRUE, # do not interrupt codebook generation in case of errors,
+                # usually better for debugging
+  echo = TRUE  # show R code
+)
+ggplot2::theme_set(ggplot2::theme_bw())
+pander::panderOptions("table.split.table", Inf)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+# load all required libraries using the groundhog package (installs libraries that are not installed yet)
+source("groundhog_packages.R")
+```
+
+```{r message=FALSE, warning=FALSE}
+#load dataset
+agg.data.bySub <- readRDS(here::here("03_output","processed_data", "agg_data.Rdata"))
+
+```
+
+```{r add_metadata}
+
+metadata(agg.data.bySub)$name = "Participants file for Manuscript _Fine-tuning Language Discrimination_ (Study 1)"
+metadata(agg.data.bySub)$description = "Demographic info and details on participation for participants in  Manuscript _Fine-tuning Language Discrimination_. This particular codebook was created for the participants in Study 1, but the columns in Study 2 are largely overlapping (and even when content is not the same, the column names and content types are the same)"
+
+```
+
+```{r var_explanations}
+
+var_label(agg.data.bySub$part_id) = "Anonymous Participant ID"
+
+var_label(agg.data.bySub$age_days) = "Age in Days" 
+
+var_label(agg.data.bySub$lang_group) = "Language Background : Monolingual vs. Bilingual" 
+val_labels(agg.data.bySub$lang_group) = c("Child is bilingual (English-French or English-Spanish" = "bilingual", 
+  "Child is monolingual (English or French)" = "monolingual", 
+  "Child is neither bilingual nor monolingual" = "other")
+
+var_label(agg.data.bySub$child_dom_lang) = "Language Dominance (based on % language exposure)"
+val_labels(agg.data.bySub$child_dom_lang) = c("Child dominant in English" = "English", 
+  "Child dominant in French" = "French", 
+  "Child dominant in Spanish" = "Spanish")
+
+var_label(agg.data.bySub$test_location) = "Location child was tested "
+val_labels(agg.data.bySub$test_location) = c("Montreal, Canada"="Montreal",
+                                              "Princeton, NJ, USA" = "NewJersey")
+
+var_label(agg.data.bySub$study) = "Study number (in this dataset, 1)"
+
+var_label(agg.data.bySub$gender) = "Gender of participant"
+
+
+
+var_label(agg.data.bySub$study_dom) = "Was participant tested using an order in their dominant or non-dominant language? This means slightly different things for Study 1 and 2. |||  Study 1: single-language trials were in their dominant/non-dominant language ||| Study 2: Sentence frame was in dominant/non-dominant language. ||| This has NA for two children who are non-keepers (never started the study due to technical problems)"
+agg.data.bySub = agg.data.bySub %>% set_value_labels(study_dom = c("Child was tested using order in dominant language" = "dominant", 
+                                                   "Child was tested using order non-dominant language" = "non-dominant"))
+
+var_label(agg.data.bySub$lang_mix_score) = "Score on Language Mixing Scale (Byers-Heinlein, 2013). Range from 1 to 30"
+var_label(agg.data.bySub$coding_missing) = "Variable indicates whether offline coding is missing for participant in this study"
+val_labels(agg.data.bySub$coding_missing) <- c("Offline coding missing" = 1, "Offline coding not missing" = 0)
+var_label(agg.data.bySub$N) = "Number of trials completed"
+var_label(agg.data.bySub$meanLT) = "Mean looking time (non-logtransformed). Used in figures"
+var_label(agg.data.bySub$sdLT) = "SD of mean looking time (non-logtransformed)"
+
+                                  
+
+var_label(agg.data.bySub$cond) = "Trial type (single, switched)"
+agg.data.bySub = agg.data.bySub %>% set_value_labels(cond =  c("single-language trial" = "single", 
+                                    "switched-language trials" = "switched"))
+
+
+var_label(agg.data.bySub$meanLT_log) = "Mean looking time (log-transformed). Used in stats analyses"
+
+var_label(agg.data.bySub$sdLT_log) = "SD looking time (log-transformed)"
+
+
+#template for adding variables
+#var_label(agg.data.bySub$COL) = "DESC"
+
+
+
+
+```
+
+
+
+
+```{r codebook}
+codebook(agg.data.bySub, detailed_variables = FALSE, missingness_report = FALSE)
+codebook(agg.data.bySub, metadata_table =  FALSE, survey_overview =  FALSE)
+
+```

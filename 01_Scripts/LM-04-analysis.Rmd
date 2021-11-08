@@ -1,0 +1,755 @@
+---
+title: "Data visualization and Analysis for Manuscript _Fine-tuning Language Discrimination_"
+output:  
+  html_document: 
+    code_folding: show
+    collapsed: no
+    df_print: kable
+    highlight: espresso
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+editor_options: 
+  chunk_output_type: console
+---
+Code accompanying "Fine-tuning language discrimination: Monolingual and bilingual infants’ detection of language switching"
+Written by Esther Schott
+
+# Preparation
+## library() calls
+see groundhog_packages.R for more package setup
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# load all required libraries using the groundhog package (installs libraries that are not installed yet)
+source("groundhog_packages.R")
+```
+
+
+## Calculating age & days function
+```{r custom_functions}
+age_md <- function(x, scale = "months") {
+  days.month = 365/12
+  months <- floor(x/days.month)
+  days <- round(x - days.month*months)
+  if (scale == "months"){
+    return(months)
+  } else if (scale == "days") {
+    return(days)
+  } else if (scale == "md") {
+    return(sprintf("%sm %sd", months, days))
+  } else {stop("please enter either months or days for argument scale")}
+}
+
+
+
+```
+
+## fix latex formatting for markdown
+without this, the papaja output shows up in a different font when exporting to word
+```{r}
+remove_latex_formatting <- function(latex_text) {
+  report_word = NULL
+  report_word = gsub("\\$", "", latex_text)
+  report_word =gsub("\\$", "",report_word)
+  report_word=  gsub("\\\\%", "%",report_word)
+  # italicize stats terms
+  report_word= gsub("r", "_r_",report_word)
+  report_word= gsub("p", "_p_",report_word)
+  report_word=  gsub("t", "_t_",report_word)
+  return(report_word)
+} 
+
+```
+
+
+
+## load data for data analysis script
+```{r load_data}
+# data aggregated by subjects
+agg.data.bySub = readRDS( here("03_output", "processed_data", "agg_data.Rdata") )
+
+# inventory of participants
+study_1_part = readRDS( here("03_output", "processed_data", "study1_participants_anonymized.Rdata"))
+study_2_part = readRDS( here("03_output", "processed_data", "study2_participants_anonymized.Rdata"))
+
+
+
+```
+
+
+
+# DESCRIPTIVES FOR PAPER {.tabset}
+
+## sample comparison between study 1 and 2
+### create participant inventory with keepers only
+```{r keepers}
+# get dataframe with keepers only (exclude participants due to language, not enough trials, etc...)
+# this is used in manuscript to  calculate sample characteristics in the participants section
+study_1_keeper = study_1_part %>% filter(keeper == 1)
+study_2_keeper = study_2_part %>% filter(keeper == 1)
+```
+
+
+### Comparing samples across Study 1 and 2
+
+```{r study_comparison}
+# get only kids who are keepers for both studies
+
+keepers_both_studies = study_1_keeper %>% inner_join(study_2_keeper, by = "part_id") %>%
+  pull(part_id)
+
+
+
+
+```
+
+### keeper comparison (for supplemental materials)
+Not all kids participated in both studies, some only contributed to Study 1 or Study 2
+```{r keeper_studies}
+# get a vector of participants who were keepers in both studies
+# get variable with only keepers for single mix
+keepers_s1 = study_1_keeper %>% 
+  pull(part_id) %>%
+  unique()
+
+# get variable with only keepers for phrasemix
+keepers_s2 = study_2_keeper %>%
+  pull(part_id) %>%
+  unique()
+
+print("keepers in Study 2, but not in Study 1")
+excluded_s1 = setdiff(keepers_s2, keepers_s1)
+print("reasons")
+
+study_1_part %>% 
+  filter(part_id %in% excluded_s1) %>% 
+  select(part_id, keeper, keeper_reason) %>% 
+  distinct(part_id, .keep_all=T    )
+
+included_s2_only = study_2_keeper %>%
+  # look at Keepers in Study 2 that were excluded in Study 1
+  filter(part_id %in% excluded_s1) %>% 
+  count() # how many rows?
+
+
+print("keepers in Study 1, not in Study 2")
+(excluded_s2 = setdiff(keepers_s1, keepers_s2))
+
+print("reasons")
+study_2_part %>% filter(part_id %in% excluded_s2, 
+                        study ==2) %>% 
+  select(part_id, keeper, keeper_reason) %>% 
+  distinct(part_id, .keep_all = T)
+
+
+```
+
+
+
+
+## Calculate aggregated Looking Times by study and language background
+```{r agg_times}
+agg.data.bySub$cond= factor(agg.data.bySub$cond)
+agg.data.bySub$cond= relevel(agg.data.bySub$cond, ref = "single" )
+
+
+
+mean.df = agg.data.bySub %>%
+  group_by(study, lang_group,cond) %>% 
+  summarize(N = n_distinct(part_id),
+            means = mean(meanLT),
+            SD = sd(meanLT),
+            se= sd(meanLT)/sqrt(length(meanLT)), 
+            upper = means+se,
+            lower=means-se) %>% ungroup()
+
+```
+
+## sample descriptives
+### age, language
+
+```{r desc_sample_paper}
+# Study 1 participants
+
+desc_sample = agg.data.bySub %>%
+  distinct(interaction(part_id, study), .keep_all = T) %>% 
+  group_by(study, lang_group) %>%
+  summarize(N=n(),
+            min = age_md(min(age_days,na.rm = T), "md"),
+            mean = age_md(mean(age_days, na.rm = T), "md"), 
+            max = age_md(max(age_days, na.rm = T), "md"),
+            mean.gender = as.integer(round(mean(gender=="male")*100,0)),
+            mean.Eng = as.integer(round(mean(child_dom_lang=="English")*100,0)),
+            mean.LangMix = round(mean(lang_mix_score, na.rm=T),2)) %>%
+  ungroup()
+
+desc_sample_location = agg.data.bySub %>%
+  filter(lang_group == "bilingual") %>%
+  distinct(interaction(part_id, study), .keep_all = T) %>% 
+  group_by(study, test_location, lang_group) %>%
+  summarize(N=n()) %>%
+  pivot_wider(names_from = test_location, values_from = N)
+
+
+
+
+
+```
+
+### language mixing exposure for bil vs mon
+Effect size (between-subjects) calculated using Formula 2 from https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00863/full
+
+```{r desc_sample_lang_mix}
+part_by_lang_study1 = desc_sample %>% filter(study ==1 ) %>% pull(N)
+t_test_lang_mix = study_1_keeper %>%
+  do(broom::tidy(t.test(.$lang_mix_score ~ .$lang_group, data = ., paired = F, var.equal =T))) %>%
+  mutate(cohen_d = round(statistic*sqrt(sum(1/part_by_lang_study1)),2),
+         t.test.res = sprintf("_t_[%s] = %.2f, _p_ = %.3f", 
+                              parameter, 
+                              statistic, 
+                              p.value))  %>% 
+  select(-conf.low, -conf.high) 
+
+
+```
+
+
+
+### bilinguals: exposure to 3rd language
+```{r desc_sample_thirdLang}
+desc_3rdLang = study_1_keeper %>%
+  filter(lang_per_ot > 0, lang_group == "bilingual") %>% 
+  summarize(N = n(),
+            Mean = mean(lang_per_ot,na.rm=T),
+            Min = min(lang_per_ot,na.rm=T),
+            Max = max(lang_per_ot,na.rm=T) )
+
+desc_language = study_1_keeper %>%  
+  group_by(test_location, lang_group) %>%
+  summarise_at(vars(lang_per_dom, lang_per_ndom), 
+               list(mean = mean, min = min, max = max), na.rm=T) %>%
+  pivot_wider(names_from = c(test_location,lang_group),
+              names_glue = "{test_location}_{lang_group}_{.value}", 
+              values_from = lang_per_dom_mean:lang_per_ndom_max) %>%
+  select(sort(colnames(.))) %>%
+  
+  select_all(~gsub("lingual|lang_per_", "",.)) %>%
+  as.list() 
+
+
+
+
+```
+
+
+
+# RESULTS {.tabset}
+## summary
+### aggregated Looking time by study
+```{r results_LT}
+summary_LT =  agg.data.bySub %>%
+  group_by(study, cond)%>%
+  droplevels() %>%
+  summarize(mean_LT = mean(meanLT,na.rm = T),
+            SD_LT = sd(meanLT, na.rm = T)) %>%
+  mutate(diff = lag(mean_LT)- mean_LT) 
+
+
+```
+### effect size in Studies 1 and 2
+```{r}
+es_studies = agg.data.bySub %>% 
+  group_by(study, cond)%>%
+  droplevels() %>%
+  summarize(mean_LT = mean(meanLT,na.rm = T),
+            SD_LT = sd(meanLT, na.rm = T)) %>%
+  pivot_wider(names_from = "cond", values_from = mean_LT:SD_LT) %>%
+  mutate(cohen_d = (mean_LT_switched - mean_LT_single)/((SD_LT_single+SD_LT_switched)/2))%>%
+  #select(study, single, switched, cohen_d)%>%
+  ungroup()
+```
+
+
+
+### Table 3: LT by study and group
+Mean looking times (standard deviations) and effect sizes in Studies 1 and 2.
+Effect size (within-subjects) calculated using Formula 10 from https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00863/full
+
+
+
+```{r results_Table3}
+diff.table = mean.df %>% select( -se, -upper, -lower) %>%
+  group_by( study, lang_group) %>%
+  pivot_wider(names_from = "cond", values_from = means:SD) %>%
+  mutate(cohen_d = (means_switched - means_single)/((SD_single+SD_switched)/2),
+         single = sprintf("%.2f (%.2f)", means_single,SD_single),
+         switched = sprintf("%.2f (%.2f)", means_switched,SD_switched))%>%
+  select(study,lang_group, single, switched, cohen_d)%>%
+  ungroup()
+
+
+
+
+
+```
+
+
+
+
+## preparing dataset for analysis
+creating a wide version of the dataframe to make it easier to calculate the differential looking time, e.g., for figure 2
+```{r result_prep_anova}
+
+# converting some variables to factors
+agg.data.bySub = droplevels(agg.data.bySub)
+agg.data.bySub$part_id = factor(agg.data.bySub$part_id)
+agg.data.bySub$study = factor(agg.data.bySub$study)
+
+# calculate difference in looking time for figure 2
+agg.data.bySub.wide = agg.data.bySub %>% 
+  select(-sdLT,-N, -sdLT_log) %>% 
+  gather(var, value, starts_with("mean")) %>% 
+  unite(temp1, cond, var, sep = ".") %>% 
+  spread(temp1, value) %>%
+  mutate(diffLT = switched.meanLT -single.meanLT,
+         diffLT_log = switched.meanLT_log, single.meanLT_log) %>% ungroup()
+```
+
+## ANOVA {.tabset}
+
+### Study 1
+```{r result_anova_study1}
+aov_s1 = ezANOVA(agg.data.bySub %>% filter(study == 1) %>% droplevels(), 
+                 dv = meanLT_log,
+                 wid = part_id, 
+                 within = cond, 
+                 between = lang_group, 
+                 return_aov = T)
+
+#ezDesign in case the anova call fails:
+#ezDesign(agg.data.bySub %>% filter(study == 1) %>% droplevels(), 
+#               col = lang_group, 
+#               x = cond, 
+#               y = part_id)
+
+
+# create output for Rmarkdown document
+aov_s1_latex = apa_print(aov_s1 [["aov"]], in_paren = TRUE)$statistic
+aov_s1_apa = aov_s1_latex %>% lapply(., function(x)
+  gsub("\\$", "",x)) %>%
+  lapply(., function(x) gsub("F", "_F_", x)) %>%
+  lapply(., function(x) gsub("p", "_p_",x)) %>%
+  lapply(., function(x) gsub('\\\\mathit\\{MSE\\}',"_MSE_",x))
+
+
+
+```
+### Study 2
+```{r result_anova_study2}
+aov_s2 = ezANOVA(agg.data.bySub %>% filter(study == 2) %>% droplevels(), 
+                 dv=meanLT_log,
+                 wid=part_id, 
+                 within=cond, between=lang_group, return_aov=T)
+# create output for manuscript
+aov_s2_latex = apa_print(aov_s2 [["aov"]], in_paren = TRUE)$statistic
+
+aov_s2_apa = aov_s2_latex %>% lapply(., function(x)
+  gsub("\\$", "",x)) %>%
+  lapply(., function(x) gsub("F", "_F_", x)) %>%
+  lapply(., function(x) gsub("p", "_p_",x)) %>%
+  lapply(., function(x) gsub('\\\\mathit\\{MSE\\}',"_MSE_",x))
+
+
+
+```
+
+
+
+### Combined ANOVA without threeway interaction
+```{r}
+
+
+
+without_threeway <-  aov(meanLT_log ~ cond * study + lang_group +
+                           lang_group:cond + lang_group:study + 
+                           Error(part_id/(cond*study)) + lang_group, 
+                         data = agg.data.bySub %>% 
+                           filter(part_id %in% keepers_both_studies) %>% 
+                           droplevels())
+
+summary(without_threeway)
+
+aov_combined_apa = apa_print(without_threeway, 
+                             in_paren = TRUE)$statistic %>% 
+  lapply(., function(x)
+    gsub("\\$", "",x)) %>%
+  lapply(., function(x) gsub("F", "_F_", x)) %>%
+  lapply(., function(x) gsub("p", "_p_",x)) %>%
+  lapply(., function(x) gsub('\\\\mathit\\{MSE\\}',"_MSE_",x))
+```
+
+
+
+
+### Supplemental Materials: anova on Montreal-only data
+
+```{r result_anova_Montreal}
+agg.data.bySub %>% filter(study == 1, test_location == "Montreal")%>%
+  group_by(lang_group) %>%
+  summarize(mean = mean(meanLT))
+
+
+aov_s1_mtl = ezANOVA(agg.data.bySub %>% filter(study == 1, test_location == "Montreal") %>% droplevels(), 
+                     dv=meanLT_log,
+                     wid=part_id, 
+                     within=cond, between=lang_group, return_aov=T)
+
+aov_s1_mtl.apa = apa_print(aov_s1_mtl [["aov"]], in_paren = TRUE)$statistic %>% 
+  lapply(., function(x)   gsub("\\$", "",x)) %>%
+  lapply(., function(x) gsub("F", "_F_", x)) %>%
+  lapply(., function(x) gsub("p", "_p_",x)) %>%
+  lapply(., function(x) gsub('\\\\mathit\\{MSE\\}',"_MSE_",x))
+
+aov_s2_mtl = ezANOVA(agg.data.bySub %>% filter(study == 2, test_location == "Montreal") %>% droplevels(), 
+                     dv=meanLT_log,
+                     wid=part_id, 
+                     within=cond, between=lang_group, return_aov=T)
+
+# convert to suitable in-text output
+aov_s2_mtl.apa = apa_print(aov_s2_mtl [["aov"]], in_paren = TRUE)$statistic %>% 
+  lapply(., function(x)  gsub("\\$", "",x)) %>%
+  lapply(., function(x) gsub("F", "_F_", x)) %>%
+  lapply(., function(x) gsub("p", "_p_",x)) %>%
+  lapply(., function(x) gsub('\\\\mathit\\{MSE\\}',"_MSE_",x))
+
+# calculate group means to investigate main effect of language background
+Montreal_summary_LT_group = agg.data.bySub %>%
+  filter(test_location == "Montreal") %>%
+  group_by(study, lang_group) %>%
+  summarize(mean = sprintf('%.2f',mean(meanLT)),
+            sd = sprintf('%.2f',sd(meanLT)))
+
+
+
+
+loc_summary_LT = agg.data.bySub %>%
+  group_by(study, test_location, cond) %>%
+  summarize(n = n_distinct(part_id),
+            mean = sprintf('%.2f',mean(meanLT)),
+            sd = sprintf('%.2f',sd(meanLT))) %>%
+  ungroup()
+
+
+```
+
+
+
+
+
+
+
+## EQUIVALENCE TESTS
+
+```{r result_eq}
+
+# smallest effect size of interest
+st.ef = .45 
+verbose.var = TRUE
+
+tost.df.study = agg.data.bySub.wide %>%
+  group_by(study) %>%
+  summarize(
+    N = n(),
+    mean.1 = mean(single.meanLT_log),
+    mean.2 = mean(switched.meanLT_log),
+    sd.1 = sd(single.meanLT_log),
+    sd.2 = sd(switched.meanLT_log),
+    corr = cor(single.meanLT_log, switched.meanLT_log)
+  ) %>% ungroup()
+
+
+TOST.results = tost.df.study %>%
+  #separate the data by Study and language background
+  nest(-study) %>%
+  # compute equivalence test
+  mutate(test = purrr::map(
+    data,
+    ~ TOSTpaired(
+      n = .$N,
+      m1 = .$mean.1,
+      m2 = .$mean.2,
+      sd1 = .$sd.1,
+      sd2 = .$sd.2,
+      r12 = .$corr,
+      high_eqbound = st.ef,
+      low_eqbound = -st.ef,
+      verbose =  FALSE
+    )
+  )) %>%
+  # convert results to tibble
+  mutate(tidied = purrr::map(test, as_tibble)) %>%
+  # make results easier to view
+  unnest(tidied, .drop = TRUE) %>%
+  group_by( study) %>%
+  mutate(max_t = ifelse(abs(TOST_t1) < abs(TOST_t2), TOST_t1, TOST_t2),
+         max_p = max(TOST_p1, TOST_p2),
+         full_result = ifelse(round(max_t,2)==0, 
+                              sprintf("_t_[%d] = %.2f, _p_ = %.3f", TOST_df, max_t,max_p),
+                              sprintf("_t_[%d] = %.2f, _p_ = %.3f", TOST_df, max_t,max_p))) %>% 
+  ungroup()
+
+print("Study 1 - Word List")
+with(tost.df.study %>% slice(1), 
+     TOSTpaired(n =N, m1=mean.1,m2=mean.2,sd1 = sd.1, sd2 = sd.2, 
+                r12 = corr, 
+                high_eqbound_dz = st.ef, 
+                low_eqbound_dz = -st.ef, 
+                verbose=verbose.var))
+print("Study 2 - Natural Sentences")
+with(tost.df.study %>% slice(2), 
+     TOSTpaired(n =N, m1=mean.1,m2=mean.2,sd1 = sd.1, sd2 = sd.2, 
+                r12 = corr, 
+                high_eqbound_dz = st.ef, 
+                low_eqbound_dz = -st.ef, 
+                verbose=verbose.var))
+
+```
+
+## EXPLORATORY ANALYSES
+### correlation between language mixing score and difference in looking time
+```{r result_exp_corr}
+
+cor_study_1_lang_mix = with(agg.data.bySub.wide %>% filter(!is.na(lang_mix_score), study == 1),
+                            cor.test(diffLT_log,
+                                     lang_mix_score )) %>% apa_print(in_paren = TRUE) 
+cor_study_2_lang_mix = with(agg.data.bySub.wide %>% filter(!is.na(lang_mix_score), study == 2),
+                            cor.test(diffLT_log,
+                                     lang_mix_score )) %>% apa_print(in_paren = TRUE) 
+# create rmarkdown output
+# convert apa_print output to an output that does not use latex formula (which comes out as a different font in word)
+corr = tibble(study= c(1,2), report_latex = c(cor_study_1_lang_mix$full_result, cor_study_2_lang_mix$full_result)) %>%
+  # get rid of latex formatting
+  mutate(report_word = remove_latex_formatting(report_latex))
+
+```
+### correlation with language dominance
+Using exposure to non-dominant language as an indicator of balancedness. 
+```{r}
+cor_study_1_lang_dom = with(agg.data.bySub.wide %>% 
+                              filter( study == 1, lang_group == "bilingual"),
+                            cor.test(diffLT_log,
+                                     lang_per_ndom )) %>% 
+  apa_print(in_paren = TRUE) 
+cor_study_2_lang_dom = with(agg.data.bySub.wide %>% 
+                              filter( study == 2, lang_group == "bilingual"),
+                            cor.test(diffLT_log,
+                                     lang_per_ndom )) %>% 
+  apa_print(in_paren = TRUE) 
+
+ggplot(agg.data.bySub.wide %>% 
+         filter(lang_group == "bilingual"), aes(diffLT, lang_per_ndom)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  facet_grid(cols = vars(study))
+corr_lang_dom  =  tibble(study= c(1,2), report_latex = c(cor_study_1_lang_dom$full_result, cor_study_2_lang_dom$full_result)) %>%
+  # get rid of latex formatting
+  mutate(report_word = remove_latex_formatting(report_latex))
+
+
+
+```
+
+
+
+### LT to single vs switched for participants tested in dominant vs non-dominant language
+```{r result_exp_dom}
+# effect sizes dominant & non-dominant
+cohen_dom = agg.data.bySub %>%
+  filter(lang_group=="bilingual") %>%
+  group_by(study, study_dom, cond) %>%
+  summarize(n = n(), 
+            means = mean(meanLT, na.rm=T),
+            SD = sd(meanLT, na.rm=T)) %>%
+  pivot_wider(names_from = "cond", values_from = means:SD) %>%
+  mutate(cohen_d = round((means_switched - means_single)/
+                           ((SD_single+SD_switched)/2),2 )) %>%
+  select(study, study_dom, n, cohen_d)
+
+
+# t-tests done separately for participants tested in dominant and non-dominant
+t_test_dom = agg.data.bySub.wide %>%
+  filter(lang_group == "bilingual") %>% 
+  group_by(study) %>%
+  do(broom::tidy(t.test(.$diffLT_log ~ .$study_dom, 
+                        data = ., 
+                        paired = F, 
+                        var.equal =T))) %>%
+  mutate(cohen_d = round(statistic/sqrt(parameter +1),2),
+         t.test.res = sprintf("_t_[%s] = %.2f, _p_ = %.3f", 
+                              parameter, 
+                              statistic, 
+                              p.value))  %>% 
+  select(-conf.low, -conf.high) 
+```
+
+
+# FIGURES  {.tabset}
+## preparations
+### common graph formatting
+this helps keeping figures look the same and makes it easier to change all graphs at the same time
+```{r results_fig_prep}
+fig.layout = list(theme_classic(base_size=24),
+                  theme(legend.title= element_blank(),
+                        axis.ticks = element_blank(),
+                        axis.text.x= element_blank(),
+                        axis.title.x = element_blank(),
+                        panel.grid.major.x = element_blank(),
+                        strip.text.x = element_text(size = 20),
+                        plot.title = element_text(hjust =.5)),
+                  coord_cartesian(ylim=c(0,20.1)))
+
+```
+### plot labels
+For prettier labels in the graph
+```{r results_fig_labels}
+study_labels <- c( `1` = "Study 1: Word Lists", 
+                   `2` = "Study 2: Natural Sentences")
+
+group_labels =c(monolingual="Monolinguals",
+                bilingual="Bilinguals")
+
+```
+
+### plot colour scheme
+```{r results_fig_colour}
+
+colour_single = "#7ab4d5" # blue
+colour_switched = "#e83b3e" # red
+
+# test greyscale printing
+# library(TeachingDemos)
+# colour_single = col2grey(colour_single) # blue
+# colour_switched = col2grey(colour_switched) # red
+
+
+
+```
+
+## Figure 1
+Mean looking times averaged across participants for single-language and switched-language trials, displayed separately for each language group. 
+### create plot for Study 1
+```{r results_fig1_study1}
+
+(plot_study_1 = ggplot()+
+   geom_bar(stat="identity",
+            data=mean.df %>%
+              subset(study==1)%>% 
+              droplevels(),
+            aes(y=means, 
+                x=cond, 
+                fill=cond), 
+            width=.75,
+            colour = "black")+
+   scale_fill_manual(values = c(colour_single, colour_switched),
+                     labels = c("Single-Language", "Switched-Language")) +
+   geom_errorbar(data=mean.df%>% 
+                   subset(study==1)%>% 
+                   droplevels(), 
+                 aes(x=cond, 
+                     ymin=lower,
+                     ymax = upper), 
+                 width=.25) +
+   geom_beeswarm(data=agg.data.bySub %>% subset(study == 1)%>% droplevels(), 
+                 aes(x=cond, y=meanLT), colour = "black", alpha = .5, shape=19, size=2.5, cex = 2.5, fill = "black") +
+   #scale_colour_manual(values=c('#3b80b8','#e31c1f'),
+   #                 labels = c("Single-Language", "switched-Language"))+
+   facet_grid(.~ lang_group, labeller = labeller(lang_group = group_labels))+
+   ylab("Mean Looking (s)") +
+   fig.layout + 
+   guides(colour = "none") + 
+   ggtitle(study_labels[[1]]))
+
+```
+### create plot study 2
+
+```{r results_fig1_study2}
+(plot_study_2 = ggplot()+
+   geom_bar(stat="identity",
+            data=mean.df %>% subset(study==2)%>% droplevels(),
+            aes(y=means, x=cond, fill=cond), width=.75,
+            colour = "black")+
+   scale_fill_manual(values=c(colour_single,colour_switched),
+                     labels = c("Single-Language", "Switched-Language")) +
+   geom_errorbar(data=mean.df%>% subset(study==2)%>% droplevels(), 
+                 aes(x=cond, ymin=lower,ymax = upper), width=.3)+
+   geom_beeswarm(data=agg.data.bySub %>% subset(study==2)%>% droplevels(), 
+                 aes(x=cond, y=meanLT), colour = "black", 
+                 alpha = .5, shape=19, size=2.5, cex = 2.5, 
+                 fill = "black")+ #scale_colour_manual(values=c('#3b80b8','#e31c1f'),
+   #                 labels = c("Single-Language", "switched-Language"))+
+   #  geom_signif(data = mean.df, aes(x= cond, y = means, annotations = "*"), comparisons = list(c("single", "switched")), 
+   #            map_signif_level=TRUE, manual = TRUE , textsize = 8)+
+   facet_grid(.~ lang_group, labeller = labeller(lang_group=group_labels))+
+   ylab("") + guides(colour = "none")+
+   fig.layout + ggtitle(study_labels [[2]]))
+
+# in case I want to add significance stars
+#label.df <- data.frame(cond = c("single", "switched"),
+#                      Value = c(6, 9))
+
+#p + geom_text(data = label.df, label = "***")
+
+```
+
+
+### combine plots and save
+```{r results_fig1_combine}
+# combine both plots, without sepearate legends for each
+poster = plot_grid(plot_study_1 + 
+                     theme(legend.position = "none"), 
+                   plot_study_2 + 
+                     theme(legend.position = "none"), 
+                   align = "h")
+# get legend separately so it can be centered below the plot
+plot_legend = get_legend(plot_study_1 +
+                           theme( legend.position="bottom",
+                                  legend.spacing.x = unit(1.0, 'cm')))
+# combine plots and legend
+plot_grid(poster, plot_legend,ncol=1, rel_heights=c(1, .1))
+# save as png
+ggsave(filename = here("03_output","figures","LTBarGraph.pdf"),
+       dpi = 300,
+       width = 15, height=6)
+
+# display new plot
+poster
+
+```
+
+## Figure 2
+Difference scores showing individual participants’ looking time to switched-language relative to single-language trials (_M_~_switched_~ - _M_~_single_~). 
+```{r results_fig2}
+agg.data.bySub.wide$study_label = factor(agg.data.bySub.wide$study, 
+                                         levels = c(1,2),
+                                         labels = c("Study 1: Word Lists", "Study 2: Natural Sentences"))
+ggplot(agg.data.bySub.wide, aes(x=lang_group, y= diffLT, fill=lang_group) ) + 
+  geom_pirate(points = F, bars = F, violins =F) +
+  geom_beeswarm( colour = "black", alpha = .5, shape=19, size=2.5, cex = 2.5, fill = "black")+
+  facet_wrap(.~ study_label) + 
+  geom_hline(yintercept =0, colour="grey")+ 
+  xlab("")+ 
+  expand_limits(y=c(-8,8)) + 
+  ylab("Difference Scores (s)")+
+  theme_classic(base_size=18) + 
+  theme(strip.text.x = element_text(size = 20))
+ggsave(filename = here("03_output","figures","DiffLTbyGroup.pdf"),
+       dpi = 300,
+       width = 10, height=6) 
+```
+
+
+
+
+
