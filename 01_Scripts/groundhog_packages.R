@@ -27,7 +27,7 @@ groundhog.library(pkg = packages_used, date = date_updated)
 # Install packages only if necessary
 if(!"ggpirate" %in% rownames(installed.packages())) devtools::install_github("mikabr/ggpirate")
 if(!"papaja" %in% rownames(installed.packages())) devtools::install_github("crsh/papaja")
-if(!"papaja" %in% rownames(installed.packages())) devtools::install_github("crsh/citr")
+if(!"citr" %in% rownames(installed.packages())) devtools::install_github("crsh/citr")
 
 library(ggpirate)
 library(papaja)
